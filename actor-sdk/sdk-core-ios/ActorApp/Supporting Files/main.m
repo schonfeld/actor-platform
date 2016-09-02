@@ -3,7 +3,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ActorApp-Swift.h"
+#import "SexyWaffles-Swift.h"
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02F286DF1D79A8F900031042 /* AuthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F286DB1D79A8F900031042 /* AuthController.swift */; };
+		02F286E01D79A8F900031042 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F286DC1D79A8F900031042 /* SettingsController.swift */; };
+		02F286E11D79A8F900031042 /* RootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F286DD1D79A8F900031042 /* RootController.swift */; };
+		02F286E21D79A8F900031042 /* ContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F286DE1D79A8F900031042 /* ContactsController.swift */; };
+		02F286E41D79A91700031042 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 02F286E31D79A91700031042 /* Localizable.strings */; };
 		06230F091BC7FF3500A4807B /* ActorSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06230F081BC7FF3000A4807B /* ActorSDK.framework */; };
 		06230F0A1BC7FF3500A4807B /* ActorSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 06230F081BC7FF3000A4807B /* ActorSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		068B397B1C85386A002BFF73 /* ringtone.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 068B397A1C85386A002BFF73 /* ringtone.m4a */; };
@@ -52,6 +57,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		02F286DB1D79A8F900031042 /* AuthController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthController.swift; sourceTree = "<group>"; };
+		02F286DC1D79A8F900031042 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		02F286DD1D79A8F900031042 /* RootController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
+		02F286DE1D79A8F900031042 /* ContactsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsController.swift; sourceTree = "<group>"; };
+		02F286E31D79A91700031042 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		06230F031BC7FF2F00A4807B /* ActorSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ActorSDK.xcodeproj; sourceTree = "<group>"; };
 		065974E11BC6926C00B8C7DF /* ActorSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = ActorSDK.framework; path = "/Users/ex3ndr/Library/Developer/Xcode/DerivedData/ActorApp-clcqncodqhdxutfqgjvteqywzxue/Build/Products/Debug-iphoneos/ActorSDK.framework"; sourceTree = "<absolute>"; };
 		068B397A1C85386A002BFF73 /* ringtone.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = ringtone.m4a; path = Resources/ringtone.m4a; sourceTree = "<group>"; };
@@ -64,7 +74,7 @@
 		2ACD33B73078EB46A22D2D4C45BF1E6E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Resources/Images.xcassets; sourceTree = "<group>"; };
 		404790AFDFFBD618E6175093 /* Pods-ActorApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ActorApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ActorApp/Pods-ActorApp.release.xcconfig"; sourceTree = "<group>"; };
 		6238B42B2462DBE201B457C54CA819D7 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		65E498AE225CBED71E8F3CD1CA2767B7 /* ActorApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ActorApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		65E498AE225CBED71E8F3CD1CA2767B7 /* SexyWaffles.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SexyWaffles.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EE6E889CD9BA13B5A0828221608DB9A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		7C171D4472C8F54A2AA0315EA0C69FED /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8B0B56F75C11CA3A0404AB4417F9B41B /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -111,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				068B397A1C85386A002BFF73 /* ringtone.m4a */,
+				02F286E31D79A91700031042 /* Localizable.strings */,
 				2ACD33B73078EB46A22D2D4C45BF1E6E /* Images.xcassets */,
 				13C57576F07AC8694C15B51DFDFDC4C6 /* InfoPlist.strings */,
 				068C6E4E1BBC4BF900182516 /* Launch Screen.storyboard */,
@@ -142,25 +153,30 @@
 		C83A7EEB1948C38ECEFC1D330C57A7B1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				65E498AE225CBED71E8F3CD1CA2767B7 /* ActorApp.app */,
+				65E498AE225CBED71E8F3CD1CA2767B7 /* SexyWaffles.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D0310FF36675D7510E52D86CDA8E2C6C /* ActorApp */ = {
+		D0310FF36675D7510E52D86CDA8E2C6C /* SexyWaffles */ = {
 			isa = PBXGroup;
 			children = (
 				75DC9F2DE93F0AFA6A85B53C4B694EAE /* Resources */,
 				1ACEA023B930E6F261DAC0A6BDB410C1 /* Supporting Files */,
 				2A521812020DAAAA325065ADC32B7DEB /* AppDelegate.swift */,
+				02F286DB1D79A8F900031042 /* AuthController.swift */,
+				02F286DC1D79A8F900031042 /* SettingsController.swift */,
+				02F286DD1D79A8F900031042 /* RootController.swift */,
+				02F286DE1D79A8F900031042 /* ContactsController.swift */,
 			);
+			name = SexyWaffles;
 			path = ActorApp;
 			sourceTree = "<group>";
 		};
 		D873D85572C6C400293E0DF69DBA58DD = {
 			isa = PBXGroup;
 			children = (
-				D0310FF36675D7510E52D86CDA8E2C6C /* ActorApp */,
+				D0310FF36675D7510E52D86CDA8E2C6C /* SexyWaffles */,
 				86C48777C0FD262E78F8BEC9253C9914 /* Frameworks */,
 				C83A7EEB1948C38ECEFC1D330C57A7B1 /* Products */,
 				BFFF6424C537CA65F6346593 /* Pods */,
@@ -170,9 +186,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EA6B7348F8364542DDD264F741AAAA19 /* ActorApp */ = {
+		EA6B7348F8364542DDD264F741AAAA19 /* SexyWaffles */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 58731A67470ABB64477A86D26A0C38CA /* Build configuration list for PBXNativeTarget "ActorApp" */;
+			buildConfigurationList = 58731A67470ABB64477A86D26A0C38CA /* Build configuration list for PBXNativeTarget "SexyWaffles" */;
 			buildPhases = (
 				712B269FC35BFB6C85DF769C /* [CP] Check Pods Manifest.lock */,
 				50CB7471D350DF82230B74B5952FA7BD /* Sources */,
@@ -189,9 +205,9 @@
 			dependencies = (
 				06230F0C1BC7FF3500A4807B /* PBXTargetDependency */,
 			);
-			name = ActorApp;
+			name = SexyWaffles;
 			productName = ActorApp;
-			productReference = 65E498AE225CBED71E8F3CD1CA2767B7 /* ActorApp.app */;
+			productReference = 65E498AE225CBED71E8F3CD1CA2767B7 /* SexyWaffles.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -202,11 +218,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = "Actor LLC";
+				ORGANIZATIONNAME = Schonfeld.org;
 				TargetAttributes = {
 					EA6B7348F8364542DDD264F741AAAA19 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = HVJR44Y5B6;
+						DevelopmentTeam = CWU2SFQ4UF;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -221,7 +237,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6A6B0DB51CB7FEB1D7D881E55C02AD30 /* Build configuration list for PBXProject "ActorApp" */;
+			buildConfigurationList = 6A6B0DB51CB7FEB1D7D881E55C02AD30 /* Build configuration list for PBXProject "SexyWaffles" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -244,7 +260,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				EA6B7348F8364542DDD264F741AAAA19 /* ActorApp */,
+				EA6B7348F8364542DDD264F741AAAA19 /* SexyWaffles */,
 			);
 		};
 /* End PBXProject section */
@@ -264,6 +280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02F286E41D79A91700031042 /* Localizable.strings in Resources */,
 				2CE3FEBEF881B465BDE1045A959BFB0A /* Images.xcassets in Resources */,
 				F45B35E37C8CB7140417EA87AAFEFDA2 /* InfoPlist.strings in Resources */,
 				068B397B1C85386A002BFF73 /* ringtone.m4a in Resources */,
@@ -355,7 +372,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02F286E11D79A8F900031042 /* RootController.swift in Sources */,
+				02F286E01D79A8F900031042 /* SettingsController.swift in Sources */,
 				DFE814D1E12D2647AF2DBA3F76405F06 /* AppDelegate.swift in Sources */,
+				02F286DF1D79A8F900031042 /* AuthController.swift in Sources */,
+				02F286E21D79A8F900031042 /* ContactsController.swift in Sources */,
 				34279C7FB8E40393FEAC939F6474BE2E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -416,8 +437,8 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = im.actor.sdk.dev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.schonfeld.sexywaffles;
+				PRODUCT_NAME = SexyWaffles;
 				PROVISIONING_PROFILE = "";
 				SDK_PATH = "../actor-sdk";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -492,8 +513,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = im.actor.sdk.dev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.schonfeld.sexywaffles;
+				PRODUCT_NAME = SexyWaffles;
 				PROVISIONING_PROFILE = "";
 				SDK_PATH = "../actor-sdk";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -552,7 +573,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		58731A67470ABB64477A86D26A0C38CA /* Build configuration list for PBXNativeTarget "ActorApp" */ = {
+		58731A67470ABB64477A86D26A0C38CA /* Build configuration list for PBXNativeTarget "SexyWaffles" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4DE2EA6053BDD0185E284AA71245C654 /* Debug */,
@@ -561,7 +582,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6A6B0DB51CB7FEB1D7D881E55C02AD30 /* Build configuration list for PBXProject "ActorApp" */ = {
+		6A6B0DB51CB7FEB1D7D881E55C02AD30 /* Build configuration list for PBXProject "SexyWaffles" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F6DBA7973E222F542FEC4D7E41CCEAA8 /* Debug */,

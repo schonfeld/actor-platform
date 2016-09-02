@@ -50,9 +50,6 @@ public class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCo
         contentView.addSubview(progress)
         
         self.contentInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-        
-        self.bubble.userInteractionEnabled = true
-        self.bubble.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AABubbleDocumentCell.documentDidTap)))
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -241,11 +238,8 @@ public class AABubbleDocumentCell: AABubbleBaseFileCell, UIDocumentInteractionCo
         
         // Message state
         if (self.isOut) {
-            self.dateLabel.frame = CGRectMake(self.bubble.frame.maxX - 70 - self.bubblePadding, self.bubble.frame.maxY - 24, 46, 26)
-            self.statusView.frame = CGRectMake(self.bubble.frame.maxX - 24 - self.bubblePadding, self.bubble.frame.maxY - 24, 20, 26)
             self.statusView.hidden = false
         } else {
-            self.dateLabel.frame = CGRectMake(self.bubble.frame.maxX - 47 - self.bubblePadding, self.bubble.frame.maxY - 24, 46, 26)
             self.statusView.hidden = true
         }
     }

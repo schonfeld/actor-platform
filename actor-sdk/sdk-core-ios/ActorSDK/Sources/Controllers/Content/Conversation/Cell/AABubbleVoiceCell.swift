@@ -383,11 +383,8 @@ public class AABubbleVoiceCell: AABubbleBaseFileCell,AAModernConversationAudioPl
         
         // Message state
         if (self.isOut) {
-            self.timeLabel.frame = CGRectMake(self.bubble.frame.maxX - 55 - self.bubblePadding, self.bubble.frame.maxY - 24, 46, 26)
-            self.statusView.frame = CGRectMake(self.bubble.frame.maxX - 24 - self.bubblePadding, self.bubble.frame.maxY - 24, 20, 26)
             self.statusView.hidden = false
         } else {
-            self.timeLabel.frame = CGRectMake(self.bubble.frame.maxX - 47 - self.bubblePadding, self.bubble.frame.maxY - 24, 46, 26)
             self.statusView.hidden = true
         }
         

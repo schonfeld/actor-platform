@@ -7,6 +7,7 @@ import UIKit
 import MobileCoreServices
 import AddressBook
 import AddressBookUI
+import CoreLocation
 
 public class ConversationViewController:
     AAConversationContentController,
@@ -14,6 +15,7 @@ public class ConversationViewController:
     UIDocumentPickerDelegate,
     UIImagePickerControllerDelegate,
     UINavigationControllerDelegate,
+    CLLocationManagerDelegate,
     AALocationPickerControllerDelegate,
     ABPeoplePickerNavigationControllerDelegate,
     AAAudioRecorderDelegate,
@@ -629,8 +631,8 @@ public class ConversationViewController:
         
         if !ActorSDK.sharedActor().delegate.actorConversationCustomAttachMenu(self) {
             let actionSheet = AAConvActionSheet()
-            actionSheet.addCustomButton("SendDocument")
             actionSheet.addCustomButton("ShareLocation")
+            actionSheet.addCustomButton("SharePoop")
             actionSheet.addCustomButton("ShareContact")
             actionSheet.delegate = self
             actionSheet.presentInController(self)
@@ -729,6 +731,8 @@ public class ConversationViewController:
         } else if index == 1 {
             pickLocation()
         } else if index == 2 {
+            poopLocation();
+        } else if index == 3 {
             pickContact()
         }
     }
@@ -743,6 +747,18 @@ public class ConversationViewController:
         let pickerController = AALocationPickerController()
         pickerController.delegate = self
         self.presentViewController(AANavigationController(rootViewController:pickerController), animated: true, completion: nil)
+    }
+    
+    public func poopLocation() {
+        let locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        let currentLocation = locationManager.location
+        if(currentLocation != nil) {
+            Actor.sendLocationWithPeer(self.peer, withLongitude: JavaLangDouble(double: currentLocation!.coordinate.longitude), withLatitude: JavaLangDouble(double: currentLocation!.coordinate.latitude), withStreet: nil, withPlace: nil)
+        }
+        locationManager.stopUpdatingLocation()
     }
     
     public func pickDocument() {

@@ -1,0 +1,41 @@
+/* 
+  Localizable.strings
+  Actor
+
+  Created by Michael Schonfeld on 8/25/16.
+  Copyright © 2016 Steve Kite. All rights reserved.
+*/
+
+"WelcomeTagline" = "That's how we do things 'round here";
+
+"AuthOTPEmailHint" = "Go check your email, dipshit. I sent you a confirmation code.";
+
+"LogOut" = "Log Out";
+
+"TabPeople" = "Hyenas";
+
+"ContactsBack" = "Hyenas";
+
+"ContactsPlaceholderTitle" = "You have no friends!";
+
+"ContactsPlaceholderSubtitle" = "Hahahahahahahahaha. Loser.";
+
+"Placeholder_Empty_Title" = "You have no friends!";
+
+"Placeholder_Empty_Message" = "Hahahahahahahahaha. Loser.";
+
+"Placeholder_Empty_Action" = "";
+
+"Placeholder_Empty_Message2" = "";
+
+"Placeholder_Empty_Action2" = "";
+
+"Placeholder_Contacts_Title" = "You have no friends!";
+
+"Placeholder_Contacts_Message" = "Hahahahahahahahaha. Loser.";
+
+"Placeholder_Contacts_Action" = "";
+
+"Placeholder_Contacts_Message2" = "";
+
+"Placeholder_Contacts_Action2" = "";

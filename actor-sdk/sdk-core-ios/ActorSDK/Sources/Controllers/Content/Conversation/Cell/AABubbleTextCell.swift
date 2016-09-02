@@ -10,16 +10,9 @@ public class AABubbleTextCell : AABubbleCell {
     
     // TODO: Better max width calculations
     
-    static let fontSize: CGFloat = AADevice.isiPad ? 17 : 16
-    static let fontRegular = UIFont.textFontOfSize(fontSize)
-    static let fontItalic = UIFont.italicTextFontOfSize(fontSize)
-    static let fontBold = UIFont.boldTextFontOfSize(fontSize)
-    
+    static let fontSize: CGFloat = 16
     private static let dateFont = UIFont.italicSystemFontOfSize(11)
-    private static let senderFont = UIFont.boldSystemFontOfSize(15)
-    
-    static let bubbleFont = fontRegular
-    static let bubbleFontUnsupported = fontItalic
+    private static let senderFont = UIFont.textFontOfSize(12)
     static let senderHeight = CGFloat(20)
     
     private let messageText = YYLabel()
@@ -53,7 +46,6 @@ public class AABubbleTextCell : AABubbleCell {
         }
         
         messageText.highlightLongPressAction = { (containerView: UIView, text: NSAttributedString, range: NSRange, rect: CGRect) -> () in
-            self.bubble
             let attributes = text.attributesAtIndex(range.location, effectiveRange: nil)
             if let attrs = attributes["YYTextHighlight"] as? YYTextHighlight {
                 if let url = attrs.userInfo!["url"] as? String {
@@ -80,8 +72,11 @@ public class AABubbleTextCell : AABubbleCell {
         
         statusView.contentMode = UIViewContentMode.Center
         
+        senderNameLabel.font = UIFont.textFontOfSize(14)
+        senderNameLabel.textColor = UIColor.grayColor()
+        
         contentView.addSubview(messageText)
-        contentView.addSubview(dateText)
+        // contentView.addSubview(dateText)
         contentView.addSubview(statusView)
         contentView.addSubview(senderNameLabel)
     }
@@ -96,8 +91,8 @@ public class AABubbleTextCell : AABubbleCell {
         
         // Saving cell settings
         self.cellLayout = cellLayout as! TextCellLayout
-        self.isClanchTop = setting.clenchTop
-        self.isClanchBottom = setting.clenchBottom
+        self.isClanchTop = true
+        self.isClanchBottom = false
         
         if (!reuse) {
             
@@ -107,31 +102,11 @@ public class AABubbleTextCell : AABubbleCell {
             // Text Layout
             messageText.textLayout = self.cellLayout.textLayout
             
-            // Setting sender name if needed
-            if isGroup && !isOut {
-                senderNameLabel.hidden = false
-                senderNameLabel.textLayout = self.cellLayout.senderLayout
-            } else {
-                senderNameLabel.hidden = true
-                senderNameLabel.textLayout = nil
-            }
+            senderNameLabel.hidden = false
+            senderNameLabel.textLayout = self.cellLayout.senderLayout
         }
         
         // Always update bubble insets
-        if (isOut) {
-            bindBubbleType(.TextOut, isCompact: isClanchBottom)
-            
-            bubbleInsets = UIEdgeInsets(
-                top: (isClanchTop ? AABubbleCell.bubbleTopCompact : AABubbleCell.bubbleTop),
-                left: 0 + (AADevice.isiPad ? 16 : 0),
-                bottom: (isClanchBottom ? AABubbleCell.bubbleBottomCompact : AABubbleCell.bubbleBottom),
-                right: (isClanchBottom ? 10 : 4) + (AADevice.isiPad ? 16 : 0))
-            contentInsets = UIEdgeInsets(
-                top: AABubbleCell.bubbleContentTop,
-                left: 10,
-                bottom: AABubbleCell.bubbleContentBottom,
-                right: (isClanchBottom ? 4 : 10))
-        } else {
             bindBubbleType(.TextIn, isCompact: isClanchBottom)
             // dateText.textColor = appStyle.chatTextDateInColor
             
@@ -145,7 +120,6 @@ public class AABubbleTextCell : AABubbleCell {
                 left: (isClanchBottom ? 11 : 17),
                 bottom: AABubbleCell.bubbleContentBottom,
                 right: 10)
-        }
 
         dateText.textLayout = self.cellLayout.dateLayout
         dateWidth = self.cellLayout.dateWidth!
@@ -240,20 +214,10 @@ public class AABubbleTextCell : AABubbleCell {
         self.messageText.frame = CGRectMake(0, 0, textSize.width, textSize.height)
 
         // Layout elements
-        if (self.isOut) {
-            self.messageText.frame.origin = CGPoint(x: contentWidth - bubbleWidth - insets.right, y: insets.top /*+ topPadding*/)
-            self.dateText.frame = CGRectMake(contentWidth - insets.right - 70 + 46 - dateWidth, bubbleHeight + insets.top - 20, dateWidth, 26)
-            self.statusView.frame = CGRectMake(contentWidth - insets.right - 24, bubbleHeight + insets.top - 20, 20, 26)
-            self.statusView.hidden = false
-        } else {
-            self.messageText.frame.origin = CGPoint(x: insets.left, y: insets.top/* + topPadding*/)
-            self.dateText.frame = CGRectMake(insets.left + bubbleWidth - 47 + 46 - dateWidth, bubbleHeight + insets.top - 20, dateWidth, 26)
-            self.statusView.hidden = true
-        }
-        
-        if self.isGroup && !self.isOut {
-            self.senderNameLabel.frame = CGRect(x: insets.left, y: insets.top - 18, width: contentWidth, height: 20)
-        }
+        self.messageText.frame.origin = CGPoint(x: insets.left, y: insets.top/* + topPadding*/)
+        self.dateText.frame = CGRectMake(insets.left + bubbleWidth - 47 + 46 - dateWidth, bubbleHeight + insets.top - 20, dateWidth, 26)
+        self.statusView.hidden = true
+        self.senderNameLabel.frame = CGRect(x: insets.left, y: insets.top - 18, width: contentWidth, height: 20)
 
         layoutBubble(bubbleWidth, contentHeight: bubbleHeight)
     }
@@ -265,27 +229,15 @@ public class AABubbleTextCell : AABubbleCell {
 public class TextCellLayout: AACellLayout {
     
     private class func maxTextWidth(isOut: Bool, peer: ACPeer) -> CGFloat {
-        if AADevice.isiPad {
-            return 400
+        if peer.isGroup {
+            return UIScreen.mainScreen().bounds.width - 90
         } else {
-            if peer.isGroup {
-                if isOut {
-                    return UIScreen.mainScreen().bounds.width - 110
-                } else {
-                    return UIScreen.mainScreen().bounds.width - 90
-                }
-            } else {
-                return UIScreen.mainScreen().bounds.width - 40
-            }
+            return UIScreen.mainScreen().bounds.width - 40
         }
     }
     
     private class func timeWidth(isOut: Bool) -> CGFloat {
-        if isOut {
-            return 60
-        } else {
-            return 36
-        }
+        return 36
     }
     
     private static let textKey = "text"
@@ -393,26 +345,21 @@ public class TextCellLayout: AACellLayout {
         // Calculating bubble height
         var height = bubbleSize.height + AABubbleCell.bubbleContentTop + AABubbleCell.bubbleContentBottom
         
-        if peer.isGroup && !isOut {
-            
+        if peer.isGroup {
             // Getting Name of sender
             let sender = Actor.getUserWithUid(jint(senderId))
-            let colors = ActorSDK.sharedActor().style.nameColors
             var senderName: String
-            var color: UIColor
             if sender.isBot() && sender.getNameModel().get() == "Bot" {
                 senderName = Actor.getGroupWithGid(peer.peerId).getNameModel().get()
-                color = colors[Int(abs(peer.peerId)) % colors.count]
             } else {
                 senderName = sender.getNameModel().get()
-                color = colors[Int(abs(senderId)) % colors.count]
             }
             
             // Building Layout
             let attributedSender = NSMutableAttributedString(string: senderName)
             let range = NSRange(location: 0, length: senderName.length)
             attributedSender.yy_setFont(AABubbleTextCell.senderFont, range: range)
-            attributedSender.yy_setColor(color, range: range)
+            attributedSender.yy_setColor(UIColor(red:0.62, green:0.62, blue:0.62, alpha:1.0), range: range)
             senderLayout = YYTextLayout(container: container, text: attributedSender)!
             
             // Fixing too small width
@@ -434,7 +381,7 @@ public class TextCellLayout: AACellLayout {
     public convenience init(senderId: Int, formattedText: String, textColor: UIColor, date: Int64, isOut: Bool, peer: ACPeer, layoutKey: String = TextCellLayout.textKey, layouter: AABubbleLayouter) {
         
         // Parsing markdown formatted text
-        let parser = TextParser(textColor: textColor, linkColor: ActorSDK.sharedActor().style.chatUrlColor, fontSize: AABubbleTextCell.fontSize)        
+        let parser = TextParser(textColor: textColor, linkColor: ActorSDK.sharedActor().style.chatUrlColor, fontSize: 14)
         let text = parser.parse(formattedText)
         
         // Creating attributed text layout
@@ -451,12 +398,11 @@ public class TextCellLayout: AACellLayout {
         let style = ActorSDK.sharedActor().style
         
         if let content = message.content as? ACTextContent {
-            
             // Creating generic layout
             self.init(
                 senderId: Int(message.senderId),
                 formattedText: content.text,
-                textColor: message.isOut ? style.chatTextOutColor : style.chatTextInColor,
+                textColor: style.chatTextInColor,
                 date: Int64(message.date),
                 isOut: message.isOut,
                 peer: peer,
@@ -471,7 +417,7 @@ public class TextCellLayout: AACellLayout {
             self.init(
                 senderId: Int(message.senderId),
                 formattedText: "_\(unsupportedText)_",
-                textColor: message.isOut ? style.chatTextOutUnsupportedColor : style.chatTextInUnsupportedColor,
+                textColor: style.chatTextInUnsupportedColor,
                 date: Int64(message.date),
                 isOut: message.isOut,
                 peer: peer,

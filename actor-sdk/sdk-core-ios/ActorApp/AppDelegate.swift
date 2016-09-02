@@ -11,30 +11,29 @@ import ActorSDK
     override init() {
         super.init()
         
-        ActorSDK.sharedActor().inviteUrlHost = "quit.email"
-        ActorSDK.sharedActor().inviteUrlScheme = "actor"
+        ActorSDK.sharedActor().endpoints = ["tcp://tcp.hyenas.sexywaffles.com:8443"]
+        ActorSDK.sharedActor().appName = "SexyWaffles"
         
-        ActorSDK.sharedActor().style.searchStatusBarStyle = .Default
+        ActorSDK.sharedActor().enableCalls = false
+        ActorSDK.sharedActor().enableVideoCalls = false
+        ActorSDK.sharedActor().enablePhoneBookImport = false
+        ActorSDK.sharedActor().authStrategy = .EmailOnly
         
-        // Enabling experimental features
-        ActorSDK.sharedActor().enableExperimentalFeatures = true
+        ActorSDK.sharedActor().inviteUrlHost = "hyenas.sexywaffles"
+        ActorSDK.sharedActor().inviteUrlScheme = "gooner"
         
-        ActorSDK.sharedActor().enableCalls = true
+        ActorSDK.sharedActor().apiPushId = 22081987
+        ActorSDK.sharedActor().autoPushMode = AAAutoPush.AfterLogin
         
-        ActorSDK.sharedActor().enableVideoCalls = true
-        
-        // Setting Development Push Id
-        ActorSDK.sharedActor().apiPushId = 868547
-        
-        ActorSDK.sharedActor().authStrategy = .PhoneEmail
-        
-        ActorSDK.sharedActor().style.dialogAvatarSize = 58
-        
-        ActorSDK.sharedActor().autoJoinGroups = ["actor_news"]
-        
+        // Styling of app
+        let style = ActorSDK.sharedActor().style
+        style.chatBgColor = UIColor(red:0.97, green:0.97, blue:0.97, alpha:1.0)
+        style.searchStatusBarStyle = .Default
+        style.dialogAvatarSize = 58
+        style.welcomeLogo = UIImage(named: "sexywaffles-logo")
+
         // Creating Actor
         ActorSDK.sharedActor().createActor()
-        
     }
     
     public override func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
@@ -45,11 +44,19 @@ import ActorSDK
         return true;
     }
     
-    public override func actorRootControllers() -> [UIViewController]? {
-        return [AAContactsViewController(), AARecentViewController(), AASettingsViewController()]
+    override public func actorControllerForAuthStart() -> UIViewController? {
+        return AuthController()
     }
     
-    public override func actorRootInitialControllerIndex() -> Int? {
-        return 0
+    override public func actorControllerForSettings() -> UIViewController? {
+        return SettingsController()
+    }
+    
+    override public func actorControllerForContacts() -> UIViewController? {
+        return ContactsController()
+    }
+    
+    override public func actorControllerForStart() -> UIViewController? {
+        return RootController()
     }
 }
