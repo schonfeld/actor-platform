@@ -3,12 +3,12 @@ use_frameworks!
 
 workspace 'ActorSDK'
 project 'ActorSDK.xcodeproj'
-project 'ActorApp.xcodeproj'
+project 'SexyWaffles.xcodeproj'
 
 inhibit_all_warnings!
 
-target 'ActorApp' do
-    project 'ActorApp.xcodeproj'
+target 'SexyWaffles' do
+    project 'SexyWaffles.xcodeproj'
 
     # Core Tools
     pod 'RegexKitLite'
@@ -28,13 +28,15 @@ target 'ActorApp' do
     # Small UI
     pod 'VBFPopFlatButton'
     pod 'SZTextView'
-        
+
     # Progress
     pod 'M13ProgressSuite'
     pod 'MBProgressHUD'
-    
+
     # Calls
     # pod 'libjingle_peerconnection'
+
+    pod 'HockeySDK', '~> 4.1.0'
 end
 
 target 'ActorSDK' do
@@ -61,11 +63,11 @@ target 'ActorSDK' do
     # Small UI
     pod 'VBFPopFlatButton'
     pod 'SZTextView'
-        
+
     # Progress
     pod 'M13ProgressSuite'
     pod 'MBProgressHUD'
-    
+
     # Calls
     pod 'libjingle_peerconnection'
 end

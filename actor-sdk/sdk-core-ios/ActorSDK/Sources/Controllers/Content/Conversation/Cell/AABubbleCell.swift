@@ -56,7 +56,9 @@ public class AABubbleCell: UICollectionViewCell {
     public static let dateSize: CGFloat = 30
     public static let newMessageSize: CGFloat = 30
     
-
+    private static let outBgColor = UIColor(red:0.87, green:0.94, blue:0.97, alpha:1.0)
+    private static let mentionBgColor = UIColor(red:0.87, green:0.97, blue:0.90, alpha:1.0)
+    
     //
     // Cached Date bubble images
     //
@@ -68,6 +70,14 @@ public class AABubbleCell: UICollectionViewCell {
     // Views
     public let avatarView = AAAvatarView()
     public var avatarAdded: Bool = false
+    
+    private static var likeImageFilledGray = UIImage.bundled("heart_filled_gray")
+    private static var likeImageFilledRed = UIImage.bundled("heart_filled_red")
+    private static var likeImage = UIImage.bundled("heart_outline")
+    private static var likeCounterColor = UIColor(red:0.62, green:0.62, blue:0.62, alpha:1.0)
+    private static var likeCounterFont = UIFont.textFontOfSize(8)
+    public let likeBtn = UIImageView()
+    public var likeBtnAdded: Bool = false
     
     private let dateText = UILabel()
     private let dateBg = UIImageView()
@@ -143,8 +153,10 @@ public class AABubbleCell: UICollectionViewCell {
         contentView.addSubview(dateText)
         
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AABubbleCell.avatarDidTap)))
-        
         avatarView.userInteractionEnabled = true
+
+        likeBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AABubbleCell.likeDidTap)))
+        likeBtn.userInteractionEnabled = true
         
         backgroundColor = UIColor.clearColor()
         
@@ -155,6 +167,13 @@ public class AABubbleCell: UICollectionViewCell {
         //self.layer.rasterizationScale = UIScreen.mainScreen().scale
         //self.layer.drawsAsynchronously = true
         //self.contentView.layer.drawsAsynchronously = true
+        
+        let swipeDetector = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(AABubbleCell.contentViewDidSwipe))
+        swipeDetector.direction = UISwipeGestureRecognizerDirection.Left
+        contentView.addGestureRecognizer(swipeDetector)
+        contentView.userInteractionEnabled = true;
     }
     
     public required init(coder aDecoder: NSCoder) {
@@ -185,6 +204,12 @@ public class AABubbleCell: UICollectionViewCell {
         rids.replaceLongAtIndex(0, withLong: bindedMessage!.rid)
         Actor.deleteMessagesWithPeer(self.peer, withRids: rids)
     }
+
+    func contentViewDidSwipe() {
+        if(!LikersOverlay.shared.isVisible() && bindedMessage != nil) {
+            LikersOverlay.shared.showOverlay(contentView.superview!.superview!.superview!, message: bindedMessage!)
+        }
+    }
     
     func avatarDidTap() {
         if bindedMessage != nil {
@@ -192,15 +217,39 @@ public class AABubbleCell: UICollectionViewCell {
         }
     }
     
+    func likeDidTap() {
+        if bindedMessage != nil {
+            likeBtnAdded = false
+            likeBtn.removeFromSuperview()
+            
+            if (bindedMessage!.reactions != nil &&
+                bindedMessage!.reactions.size() > 0 &&
+                bindedMessage!.reactions.getWithInt(0).getUids() != nil &&
+                (bindedMessage!.reactions.getWithInt(0).getUids() as JavaUtilList).containsWithId(Actor.myUid().toNSNumber())) {
+                controller.execute(Actor.removeReactionWithPeer(self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
+            }
+            else {
+                controller.execute(Actor.addReactionWithPeer(self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
+            }
+        }
+    }
+    
     public func performBind(message: ACMessage, receiveDate: jlong, readDate: jlong, setting: AACellSetting, isShowNewMessages: Bool, layout: AACellLayout) {
-        
+
         var reuse = false
-        if (bindedMessage != nil && bindedMessage?.rid == message.rid) {
+        if (bindedMessage != nil && bindedMessage?.rid == message.rid && bindedMessage?.reactions?.size() == message.reactions?.size()) {
             reuse = true
         }
         isOut = message.senderId == Actor.myUid();
-        backgroundColor = isOut ? UIColor(red:0.87, green:0.94, blue:0.97, alpha:1.0) : UIColor.clearColor()
+        backgroundColor = isOut ? AABubbleCell.outBgColor : UIColor.clearColor()
         bindedMessage = message
+        
+        if let textContent = message.content as? ACTextContent {
+            if textContent.getMentions().containsWithId(Actor.myUid().toNSNumber()) {
+                backgroundColor = AABubbleCell.mentionBgColor
+            }
+        }
+        
         self.isShowNewMessages = isShowNewMessages
         if !reuse && !isFullSize {
             if (isGroup) {
@@ -222,10 +271,43 @@ public class AABubbleCell: UICollectionViewCell {
                     contentView.addSubview(avatarView)
                     avatarAdded = true
                 }
+                
+                if bindedMessage != nil {
+                    let likeCount = UILabel()
+                    likeCount.textAlignment = NSTextAlignment.Center
+                    likeCount.font = AABubbleCell.likeCounterFont
+                    likeCount.textColor = AABubbleCell.likeCounterColor
+                    likeCount.frame = CGRect(x: 11, y: 14, width: 9, height: 9);
+                    likeCount.text = "0"
+                    likeBtn.image = AABubbleCell.likeImage
+                    
+                    if(bindedMessage!.reactions != nil && bindedMessage!.reactions.size() > 0) {
+                        let uids = bindedMessage!.reactions.getWithInt(0).getUids() as JavaUtilList;
+                        if(uids.containsWithId(Actor.myUid().toNSNumber())) {
+                            likeBtn.image = AABubbleCell.likeImageFilledRed
+                        }
+                        else {
+                            likeBtn.image = AABubbleCell.likeImageFilledGray
+                        }
+                        likeCount.text = String(uids.size())
+                    }
+                    
+                    likeBtn.removeAllSubviews()
+                    likeBtn.addSubview(likeCount)
+                }
+                
+                if !likeBtnAdded {
+                    contentView.addSubview(likeBtn)
+                    likeBtnAdded = true
+                }
             } else {
                 if avatarAdded {
                     avatarView.removeFromSuperview()
                     avatarAdded = false
+                }
+                if likeBtnAdded {
+                    likeBtn.removeFromSuperview()
+                    likeBtnAdded = false
                 }
             }
         }
@@ -269,6 +351,7 @@ public class AABubbleCell: UICollectionViewCell {
             self.layoutAnchor()
             if (self.isGroup && !self.isFullSize) {
                 self.layoutAvatar()
+                self.layoutLike()
             }
         }
     }
@@ -311,6 +394,14 @@ public class AABubbleCell: UICollectionViewCell {
             y: 10,
             width: avatarSize,
             height: avatarSize)
+    }
+    
+    func layoutLike() {
+        likeBtn.frame = CGRect(
+            x: self.contentView.frame.size.width - 26,
+            y: 10,
+            width: 18,
+            height: 18)
     }
     
     // Need to be called in child cells

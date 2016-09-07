@@ -77,11 +77,7 @@ public class AABubbleMediaCell : AABubbleBaseFileCell, NYTPhotosViewControllerDe
         if (!reuse) {
             
             // Bind bubble
-            if (self.isOut) {
-                bindBubbleType(BubbleType.MediaOut, isCompact: false)
-            } else {
-                bindBubbleType(BubbleType.MediaIn, isCompact: false)
-            }
+            bindBubbleType(BubbleType.MediaIn, isCompact: false)
             
             // Reset content state
             preview.image = nil
@@ -132,33 +128,8 @@ public class AABubbleMediaCell : AABubbleBaseFileCell, NYTPhotosViewControllerDe
         timeLabel.text = cellLayout.date
         
         // Update status
-        if (isOut) {
-            statusView.hidden = false
-            switch(message.messageState.toNSEnum()) {
-            case .SENT:
-                if message.sortDate <= readDate {
-                    self.statusView.image = appStyle.chatIconCheck2
-                    self.statusView.tintColor = appStyle.chatStatusMediaRead
-                } else if message.sortDate <= receiveDate {
-                    self.statusView.image = appStyle.chatIconCheck2
-                    self.statusView.tintColor = appStyle.chatStatusMediaReceived
-                } else {
-                    self.statusView.image = appStyle.chatIconCheck1
-                    self.statusView.tintColor = appStyle.chatStatusMediaSent
-                }
-                break
-            case .ERROR:
-                self.statusView.image = appStyle.chatIconError
-                self.statusView.tintColor = appStyle.chatStatusMediaError
-                break
-            default:
-                self.statusView.image = appStyle.chatIconClock
-                self.statusView.tintColor = appStyle.chatStatusMediaSending
-                break
-            }
-        } else {
-            statusView.hidden = true
-        }
+        statusView.hidden = true
+
     }
     
     // File state binding
@@ -346,18 +317,13 @@ public class AABubbleMediaCell : AABubbleBaseFileCell, NYTPhotosViewControllerDe
     
     public override func layoutContent(maxWidth: CGFloat, offsetX: CGFloat) {
         let insets = fullContentInsets
-        let contentWidth = self.contentView.frame.width
         _ = self.contentView.frame.height
         let bubbleWidth = self.bindedLayout.screenSize.width
         let bubbleHeight = self.bindedLayout.screenSize.height
         
         layoutBubble(bubbleWidth, contentHeight: bubbleHeight)
         
-        if (isOut) {
-            preview.frame = CGRectMake(contentWidth - insets.left - bubbleWidth, insets.top, bubbleWidth, bubbleHeight)
-        } else {
-            preview.frame = CGRectMake(insets.left, insets.top, bubbleWidth, bubbleHeight)
-        }
+        preview.frame = CGRectMake(insets.left, insets.top, bubbleWidth, bubbleHeight)
         
         playView.centerIn(preview.frame)
         
@@ -366,14 +332,10 @@ public class AABubbleMediaCell : AABubbleBaseFileCell, NYTPhotosViewControllerDe
         timeLabel.frame = CGRectMake(0, 0, 1000, 1000)
         timeLabel.sizeToFit()
         
-        let timeWidth = (isOut ? 23 : 0) + timeLabel.bounds.width
+        let timeWidth = timeLabel.bounds.width
         let timeHeight: CGFloat = 20
         
         timeLabel.frame = CGRectMake(preview.frame.maxX - timeWidth - 8, preview.frame.maxY - timeHeight - 4, timeLabel.frame.width, timeHeight)
-        
-        if (isOut) {
-            statusView.frame = CGRectMake(timeLabel.frame.maxX, timeLabel.frame.minY, 23, timeHeight)
-        }
         
         timeBg.frame = CGRectMake(timeLabel.frame.minX - 6, timeLabel.frame.minY, timeWidth + 10, timeHeight)
     }

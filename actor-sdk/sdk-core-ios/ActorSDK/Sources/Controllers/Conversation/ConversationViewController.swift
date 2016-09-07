@@ -658,7 +658,7 @@ public class ConversationViewController:
                 if oldCount == filteredMembers.count {
                     self.autoCompletionView.reloadData()
                 }
-                
+                    
                 dispatchOnUi { () -> Void in
                     self.showAutoCompletionView(self.filteredMembers.count > 0)
                 }
@@ -727,12 +727,10 @@ public class ConversationViewController:
     
     public func actionSheetCustomButton(index: Int) {
         if index == 0 {
-            pickDocument()
-        } else if index == 1 {
             pickLocation()
-        } else if index == 2 {
+        } else if index == 1 {
             poopLocation();
-        } else if index == 3 {
+        } else if index == 2 {
             pickContact()
         }
     }
@@ -757,6 +755,7 @@ public class ConversationViewController:
         let currentLocation = locationManager.location
         if(currentLocation != nil) {
             Actor.sendLocationWithPeer(self.peer, withLongitude: JavaLangDouble(double: currentLocation!.coordinate.longitude), withLatitude: JavaLangDouble(double: currentLocation!.coordinate.latitude), withStreet: nil, withPlace: nil)
+            Actor.sendMessageWithPeer(self.peer, withText: "Pooping")
         }
         locationManager.stopUpdatingLocation()
     }

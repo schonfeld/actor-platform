@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "Hearts Filled-50 (3).png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ic_discover_outlined@2x.png",
+      "filename" : "Hearts Filled-100 (1).png",
       "scale" : "2x"
     },
     {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02D1D8F01D7F2B7700576B64 /* Likes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D1D8EF1D7F2B7700576B64 /* Likes.swift */; };
 		060135031C95ED4C00A18C4E /* YYAsyncLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 060134FD1C95ED4C00A18C4E /* YYAsyncLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		060135041C95ED4C00A18C4E /* YYAsyncLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 060134FE1C95ED4C00A18C4E /* YYAsyncLayer.m */; };
 		060135051C95ED4C00A18C4E /* YYSentinel.h in Headers */ = {isa = PBXBuildFile; fileRef = 060134FF1C95ED4C00A18C4E /* YYSentinel.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -117,7 +118,7 @@
 		066A516D1BC4C366000E606E /* ActorCoreExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066A51681BC4C366000E606E /* ActorCoreExt.swift */; };
 		066A517A1BC4C373000E606E /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 066A516F1BC4C373000E606E /* FMDatabase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		066A517B1BC4C373000E606E /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 066A51701BC4C373000E606E /* FMDatabase.m */; };
-		066A517C1BC4C373000E606E /* FMDatabase+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 066A51711BC4C373000E606E /* FMDatabase+Private.h */; };
+		066A517C1BC4C373000E606E /* FMDatabase+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 066A51711BC4C373000E606E /* FMDatabase+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		066A517D1BC4C373000E606E /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 066A51721BC4C373000E606E /* FMDatabaseAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		066A517E1BC4C373000E606E /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 066A51731BC4C373000E606E /* FMDatabaseAdditions.m */; };
 		066A517F1BC4C373000E606E /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 066A51741BC4C373000E606E /* FMDatabasePool.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -226,7 +227,7 @@
 		066CBCDC1C8D419F004507E2 /* AAAuthEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066CBCDB1C8D419F004507E2 /* AAAuthEmailViewController.swift */; };
 		067B67541D45341D00B9A238 /* AAGroupViewMembersController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067B67531D45341D00B9A238 /* AAGroupViewMembersController.swift */; };
 		068AFC391C94A0050055F503 /* AADialogListProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068AFC381C94A0050055F503 /* AADialogListProcessor.swift */; };
-		069CF4CC1BCB909A00C66E12 /* CLBackspaceDetectingTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 069CF4C41BCB909A00C66E12 /* CLBackspaceDetectingTextField.h */; };
+		069CF4CC1BCB909A00C66E12 /* CLBackspaceDetectingTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 069CF4C41BCB909A00C66E12 /* CLBackspaceDetectingTextField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		069CF4CD1BCB909A00C66E12 /* CLBackspaceDetectingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 069CF4C51BCB909A00C66E12 /* CLBackspaceDetectingTextField.m */; };
 		069CF4CE1BCB909A00C66E12 /* CLToken.h in Headers */ = {isa = PBXBuildFile; fileRef = 069CF4C61BCB909A00C66E12 /* CLToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		069CF4CF1BCB909A00C66E12 /* CLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 069CF4C71BCB909A00C66E12 /* CLToken.m */; };
@@ -288,59 +289,59 @@
 		153F6B8A1C2D7BA300C0B960 /* AATapLabelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153F6B881C2D7BA300C0B960 /* AATapLabelDelegate.swift */; };
 		153F6B8B1C2D7BA400C0B960 /* AATapLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153F6B891C2D7BA300C0B960 /* AATapLabel.swift */; };
 		15D35F161C20185500E3717A /* diag_range.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F0C1C20185500E3717A /* diag_range.c */; };
-		15D35F171C20185500E3717A /* diag_range.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F0D1C20185500E3717A /* diag_range.h */; };
+		15D35F171C20185500E3717A /* diag_range.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F0D1C20185500E3717A /* diag_range.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F181C20185500E3717A /* opus_header.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F0E1C20185500E3717A /* opus_header.c */; };
-		15D35F191C20185500E3717A /* opus_header.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F0F1C20185500E3717A /* opus_header.h */; };
-		15D35F1A1C20185500E3717A /* opusenc.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F101C20185500E3717A /* opusenc.h */; };
+		15D35F191C20185500E3717A /* opus_header.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F0F1C20185500E3717A /* opus_header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		15D35F1A1C20185500E3717A /* opusenc.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F101C20185500E3717A /* opusenc.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F1B1C20185500E3717A /* opusenc.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F111C20185500E3717A /* opusenc.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		15D35F1C1C20185500E3717A /* picture.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F121C20185500E3717A /* picture.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		15D35F1D1C20185500E3717A /* picture.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F131C20185500E3717A /* picture.h */; };
+		15D35F1D1C20185500E3717A /* picture.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F131C20185500E3717A /* picture.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F1E1C20185500E3717A /* wav_io.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F141C20185500E3717A /* wav_io.c */; };
-		15D35F1F1C20185500E3717A /* wav_io.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F151C20185500E3717A /* wav_io.h */; };
+		15D35F1F1C20185500E3717A /* wav_io.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F151C20185500E3717A /* wav_io.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F251C20186200E3717A /* bitwise.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F211C20186200E3717A /* bitwise.c */; };
 		15D35F261C20186200E3717A /* framing.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F221C20186200E3717A /* framing.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		15D35F271C20186200E3717A /* ogg.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F231C20186200E3717A /* ogg.h */; };
-		15D35F281C20186200E3717A /* os_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F241C20186200E3717A /* os_types.h */; };
+		15D35F271C20186200E3717A /* ogg.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F231C20186200E3717A /* ogg.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		15D35F281C20186200E3717A /* os_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F241C20186200E3717A /* os_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F301C20187200E3717A /* info.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F2A1C20187200E3717A /* info.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		15D35F311C20187200E3717A /* internal.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F2B1C20187200E3717A /* internal.c */; };
-		15D35F321C20187200E3717A /* internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F2C1C20187200E3717A /* internal.h */; };
+		15D35F321C20187200E3717A /* internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F2C1C20187200E3717A /* internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F331C20187200E3717A /* opusfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F2D1C20187200E3717A /* opusfile.c */; settings = {COMPILER_FLAGS = "-w"; }; };
-		15D35F341C20187200E3717A /* opusfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F2E1C20187200E3717A /* opusfile.h */; };
+		15D35F341C20187200E3717A /* opusfile.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F2E1C20187200E3717A /* opusfile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F351C20187200E3717A /* stream.c in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F2F1C20187200E3717A /* stream.c */; };
-		15D35F511C20187E00E3717A /* ASQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F361C20187E00E3717A /* ASQueue.h */; };
+		15D35F511C20187E00E3717A /* ASQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F361C20187E00E3717A /* ASQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F521C20187E00E3717A /* ASQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F371C20187E00E3717A /* ASQueue.m */; };
-		15D35F531C20187E00E3717A /* AAOpusAudioRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F381C20187E00E3717A /* AAOpusAudioRecorder.h */; };
+		15D35F531C20187E00E3717A /* AAOpusAudioRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F381C20187E00E3717A /* AAOpusAudioRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F541C20187E00E3717A /* AAOpusAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F391C20187E00E3717A /* AAOpusAudioRecorder.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		15D35F551C20187E00E3717A /* AAAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F3A1C20187E00E3717A /* AAAlertView.h */; };
+		15D35F551C20187E00E3717A /* AAAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F3A1C20187E00E3717A /* AAAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F561C20187E00E3717A /* AAAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F3B1C20187E00E3717A /* AAAlertView.m */; };
 		15D35F571C20187E00E3717A /* AAAudioRecorder.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F3C1C20187E00E3717A /* AAAudioRecorder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		15D35F591C20187E00E3717A /* AATimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F3E1C20187E00E3717A /* AATimer.h */; };
+		15D35F591C20187E00E3717A /* AATimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F3E1C20187E00E3717A /* AATimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F5A1C20187E00E3717A /* AATimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F3F1C20187E00E3717A /* AATimer.m */; };
 		15D35F5B1C20187E00E3717A /* AAAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F401C20187E00E3717A /* AAAudioPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F5C1C20187E00E3717A /* AAAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F411C20187E00E3717A /* AAAudioPlayer.m */; };
-		15D35F5D1C20187E00E3717A /* AANativeAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F421C20187E00E3717A /* AANativeAudioPlayer.h */; };
+		15D35F5D1C20187E00E3717A /* AANativeAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F421C20187E00E3717A /* AANativeAudioPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F5E1C20187E00E3717A /* AANativeAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F431C20187E00E3717A /* AANativeAudioPlayer.m */; };
-		15D35F5F1C20187E00E3717A /* AAOpusAudioPlayerAU.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F441C20187E00E3717A /* AAOpusAudioPlayerAU.h */; };
+		15D35F5F1C20187E00E3717A /* AAOpusAudioPlayerAU.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F441C20187E00E3717A /* AAOpusAudioPlayerAU.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F601C20187E00E3717A /* AAOpusAudioPlayerAU.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F451C20187E00E3717A /* AAOpusAudioPlayerAU.mm */; settings = {COMPILER_FLAGS = "-w"; }; };
-		15D35F611C20187E00E3717A /* AAAudioBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F461C20187E00E3717A /* AAAudioBuffer.h */; };
+		15D35F611C20187E00E3717A /* AAAudioBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F461C20187E00E3717A /* AAAudioBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F621C20187E00E3717A /* AAModernConversationAudioPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F471C20187E00E3717A /* AAModernConversationAudioPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F631C20187E00E3717A /* AAModernConversationAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F481C20187E00E3717A /* AAModernConversationAudioPlayer.m */; };
 		15D35F641C20187E00E3717A /* AAModernConversationAudioPlayerContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F491C20187E00E3717A /* AAModernConversationAudioPlayerContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F651C20187E00E3717A /* AAModernConversationAudioPlayerContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F4A1C20187E00E3717A /* AAModernConversationAudioPlayerContext.m */; };
-		15D35F661C20187E00E3717A /* NSObject+TGLock.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F4B1C20187E00E3717A /* NSObject+TGLock.h */; };
+		15D35F661C20187E00E3717A /* NSObject+TGLock.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F4B1C20187E00E3717A /* NSObject+TGLock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F671C20187E00E3717A /* NSObject+TGLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F4C1C20187E00E3717A /* NSObject+TGLock.m */; };
 		15D35F681C20187E00E3717A /* AAModernViewInlineMediaContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F4D1C20187E00E3717A /* AAModernViewInlineMediaContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F691C20187E00E3717A /* AAModernViewInlineMediaContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F4E1C20187E00E3717A /* AAModernViewInlineMediaContext.m */; };
-		15D35F6A1C20187E00E3717A /* AATimerTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F4F1C20187E00E3717A /* AATimerTarget.h */; };
+		15D35F6A1C20187E00E3717A /* AATimerTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 15D35F4F1C20187E00E3717A /* AATimerTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15D35F6B1C20187E00E3717A /* AATimerTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F501C20187E00E3717A /* AATimerTarget.m */; };
 		15D35F6F1C20196E00E3717A /* AARecordAudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F6E1C20196E00E3717A /* AARecordAudioController.swift */; };
 		15D35F751C201B6B00E3717A /* AACustomPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F731C201B6B00E3717A /* AACustomPresentationController.swift */; };
 		15D35F761C201B6B00E3717A /* AACustomPresentationAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F741C201B6B00E3717A /* AACustomPresentationAnimationController.swift */; };
 		15D35F781C20273D00E3717A /* AAAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 15D35F3D1C20187E00E3717A /* AAAudioRecorder.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		15F89F071C211FED00776ACD /* opus_defines.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F031C211FED00776ACD /* opus_defines.h */; };
-		15F89F081C211FED00776ACD /* opus_multistream.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F041C211FED00776ACD /* opus_multistream.h */; };
-		15F89F091C211FED00776ACD /* opus_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F051C211FED00776ACD /* opus_types.h */; };
-		15F89F0A1C211FED00776ACD /* opus.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F061C211FED00776ACD /* opus.h */; };
+		15F89F071C211FED00776ACD /* opus_defines.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F031C211FED00776ACD /* opus_defines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		15F89F081C211FED00776ACD /* opus_multistream.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F041C211FED00776ACD /* opus_multistream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		15F89F091C211FED00776ACD /* opus_types.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F051C211FED00776ACD /* opus_types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		15F89F0A1C211FED00776ACD /* opus.h in Headers */ = {isa = PBXBuildFile; fileRef = 15F89F061C211FED00776ACD /* opus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9AA6A41F1D08568A00957A7F /* AASettingsMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6A41E1D08568A00957A7F /* AASettingsMediaViewController.swift */; };
 		9AAE96481CF81F140092E366 /* AARingtonesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAE96471CF81F140092E366 /* AARingtonesViewController.swift */; };
 		BDF21708B376E212CEAEC43D /* Pods_ActorSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 354C3EFA48FBFAEAD0DEEE17 /* Pods_ActorSDK.framework */; };
@@ -379,6 +380,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02D1D8EF1D7F2B7700576B64 /* Likes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Likes.swift; sourceTree = "<group>"; };
 		060134FD1C95ED4C00A18C4E /* YYAsyncLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYAsyncLayer.h; sourceTree = "<group>"; };
 		060134FE1C95ED4C00A18C4E /* YYAsyncLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYAsyncLayer.m; sourceTree = "<group>"; };
 		060134FF1C95ED4C00A18C4E /* YYSentinel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYSentinel.h; sourceTree = "<group>"; };
@@ -1338,6 +1340,7 @@
 				066A53161BC533DD000E606E /* AABubbles.swift */,
 				066A53141BC533D5000E606E /* AAConversationContentController.swift */,
 				065975061BC7BB4000B8C7DF /* AANavigationBadge.swift */,
+				02D1D8EF1D7F2B7700576B64 /* Likes.swift */,
 			);
 			path = Conversation;
 			sourceTree = "<group>";
@@ -1813,7 +1816,6 @@
 				060135031C95ED4C00A18C4E /* YYAsyncLayer.h in Headers */,
 				069CF4D21BCB909A00C66E12 /* CLTokenView.h in Headers */,
 				066A51831BC4C373000E606E /* FMResultSet.h in Headers */,
-				15F89F091C211FED00776ACD /* opus_types.h in Headers */,
 				060135071C95ED4C00A18C4E /* YYTransaction.h in Headers */,
 				066A517D1BC4C373000E606E /* FMDatabaseAdditions.h in Headers */,
 				069CF4D01BCB909A00C66E12 /* CLTokenInputView.h in Headers */,
@@ -1821,12 +1823,10 @@
 				066A517F1BC4C373000E606E /* FMDatabasePool.h in Headers */,
 				066A51811BC4C373000E606E /* FMDatabaseQueue.h in Headers */,
 				066A517A1BC4C373000E606E /* FMDatabase.h in Headers */,
-				069CF4CC1BCB909A00C66E12 /* CLBackspaceDetectingTextField.h in Headers */,
 				061850F21C95CBF000C522D5 /* YYTextRubyAnnotation.h in Headers */,
 				066A50D61BC4AE63000E606E /* ActorSDK.h in Headers */,
 				061850E01C95CBF000C522D5 /* YYTextInput.h in Headers */,
 				15D35F621C20187E00E3717A /* AAModernConversationAudioPlayer.h in Headers */,
-				066A517C1BC4C373000E606E /* FMDatabase+Private.h in Headers */,
 				15D35F5B1C20187E00E3717A /* AAAudioPlayer.h in Headers */,
 				152AA8B11C2989270030DEEE /* SLKTypingIndicatorView.h in Headers */,
 				152AA8A81C2989270030DEEE /* SLKTextInputbar.h in Headers */,
@@ -1864,23 +1864,22 @@
 				0618510A1C95CBF000C522D5 /* YYText.h in Headers */,
 				BED5A2071C4839790045FDB0 /* NYTPhoto.h in Headers */,
 				15D35F571C20187E00E3717A /* AAAudioRecorder.h in Headers */,
-				15F89F071C211FED00776ACD /* opus_defines.h in Headers */,
 				061850E21C95CBF000C522D5 /* YYTextKeyboardManager.h in Headers */,
-				15D35F341C20187200E3717A /* opusfile.h in Headers */,
-				15D35F661C20187E00E3717A /* NSObject+TGLock.h in Headers */,
 				061850EA1C95CBF000C522D5 /* YYTextSelectionView.h in Headers */,
 				061850FC1C95CBF000C522D5 /* UIView+YYText.h in Headers */,
+				069CF4CC1BCB909A00C66E12 /* CLBackspaceDetectingTextField.h in Headers */,
+				066A517C1BC4C373000E606E /* FMDatabase+Private.h in Headers */,
+				15F89F071C211FED00776ACD /* opus_defines.h in Headers */,
+				15D35F341C20187200E3717A /* opusfile.h in Headers */,
+				15D35F661C20187E00E3717A /* NSObject+TGLock.h in Headers */,
 				15D35F281C20186200E3717A /* os_types.h in Headers */,
 				15D35F191C20185500E3717A /* opus_header.h in Headers */,
-				061850DC1C95CBF000C522D5 /* YYTextDebugOption.h in Headers */,
+				15F89F091C211FED00776ACD /* opus_types.h in Headers */,
 				15F89F081C211FED00776ACD /* opus_multistream.h in Headers */,
 				15D35F1F1C20185500E3717A /* wav_io.h in Headers */,
 				15D35F171C20185500E3717A /* diag_range.h in Headers */,
 				15D35F5F1C20187E00E3717A /* AAOpusAudioPlayerAU.h in Headers */,
 				15D35F551C20187E00E3717A /* AAAlertView.h in Headers */,
-				0618510B1C95CBF000C522D5 /* YYTextView.h in Headers */,
-				061850F81C95CBF000C522D5 /* NSParagraphStyle+YYText.h in Headers */,
-				061850FE1C95CBF000C522D5 /* YYTextAsyncLayer.h in Headers */,
 				15D35F5D1C20187E00E3717A /* AANativeAudioPlayer.h in Headers */,
 				15D35F271C20186200E3717A /* ogg.h in Headers */,
 				15D35F321C20187200E3717A /* internal.h in Headers */,
@@ -1888,11 +1887,15 @@
 				15D35F591C20187E00E3717A /* AATimer.h in Headers */,
 				15D35F531C20187E00E3717A /* AAOpusAudioRecorder.h in Headers */,
 				15D35F611C20187E00E3717A /* AAAudioBuffer.h in Headers */,
-				061851061C95CBF000C522D5 /* YYDispatchQueuePool.h in Headers */,
 				15D35F6A1C20187E00E3717A /* AATimerTarget.h in Headers */,
 				15F89F0A1C211FED00776ACD /* opus.h in Headers */,
 				15D35F511C20187E00E3717A /* ASQueue.h in Headers */,
 				15D35F1D1C20185500E3717A /* picture.h in Headers */,
+				061850DC1C95CBF000C522D5 /* YYTextDebugOption.h in Headers */,
+				0618510B1C95CBF000C522D5 /* YYTextView.h in Headers */,
+				061850F81C95CBF000C522D5 /* NSParagraphStyle+YYText.h in Headers */,
+				061850FE1C95CBF000C522D5 /* YYTextAsyncLayer.h in Headers */,
+				061851061C95CBF000C522D5 /* YYDispatchQueuePool.h in Headers */,
 				06E3230E1C69445C00D66F53 /* WebRTC.h in Headers */,
 				06230F421BC95BD200A4807B /* RMPhoneFormat.h in Headers */,
 				069CF4CE1BCB909A00C66E12 /* CLToken.h in Headers */,
@@ -1935,7 +1938,7 @@
 				TargetAttributes = {
 					066A50D11BC4AE63000E606E = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = HVJR44Y5B6;
+						DevelopmentTeam = CWU2SFQ4UF;
 					};
 				};
 			};
@@ -2116,6 +2119,7 @@
 				152AA8A91C2989270030DEEE /* SLKTextInputbar.m in Sources */,
 				BED5A1F31C48396A0045FDB0 /* NYTPhotoDismissalInteractionController.m in Sources */,
 				066A53071BC53183000E606E /* AARecentViewController.swift in Sources */,
+				02D1D8F01D7F2B7700576B64 /* Likes.swift in Sources */,
 				061850EF1C95CBF000C522D5 /* YYTextAttribute.m in Sources */,
 				06230F411BC95BD200A4807B /* RMPhoneFormat.m in Sources */,
 				BE4DBE6C1C5723BE00A31894 /* AttributedLabel.swift in Sources */,
@@ -2327,6 +2331,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2374,6 +2379,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;

@@ -71,11 +71,7 @@ public class AABubbleLocationCell: AABubbleCell {
         if (!reuse) {
             
             // Bind bubble
-            if (self.isOut) {
-                bindBubbleType(BubbleType.MediaOut, isCompact: false)
-            } else {
-                bindBubbleType(BubbleType.MediaIn, isCompact: false)
-            }
+            bindBubbleType(BubbleType.MediaIn, isCompact: false)
         }
         
         map.bind(layout.latitude, longitude: layout.longitude)
@@ -84,61 +80,23 @@ public class AABubbleLocationCell: AABubbleCell {
         timeLabel.text = cellLayout.date
         
         // Update status
-        if (isOut) {
-            statusView.hidden = false
-            switch(message.messageState.toNSEnum()) {
-            case .SENT:
-                if message.sortDate <= readDate {
-                    self.statusView.image = appStyle.chatIconCheck2
-                    self.statusView.tintColor = appStyle.chatStatusMediaRead
-                } else if message.sortDate <= receiveDate {
-                    self.statusView.image = appStyle.chatIconCheck2
-                    self.statusView.tintColor = appStyle.chatStatusMediaReceived
-                } else {
-                    self.statusView.image = appStyle.chatIconCheck1
-                    self.statusView.tintColor = appStyle.chatStatusMediaSent
-                }
-            case .ERROR:
-                self.statusView.image = appStyle.chatIconError
-                self.statusView.tintColor = appStyle.chatStatusMediaError
-                break
-            case .PENDING:
-                self.statusView.image = appStyle.chatIconClock
-                self.statusView.tintColor = appStyle.chatStatusMediaSending
-                break
-            default:
-                self.statusView.image = appStyle.chatIconClock
-                self.statusView.tintColor = appStyle.chatStatusMediaSending
-                break
-            }
-        } else {
-            statusView.hidden = true
-        }
+        statusView.hidden = true
     }
     
     public override func layoutContent(maxWidth: CGFloat, offsetX: CGFloat) {
         let insets = fullContentInsets
-        let contentWidth = self.contentView.frame.width
         
         layoutBubble(mapWidth, contentHeight: mapHeight)
         
-        if isOut {
-            map.frame = CGRectMake(contentWidth - insets.right - mapWidth , insets.top, mapWidth, mapHeight)
-        } else {
-            map.frame = CGRectMake(insets.left, insets.top, mapWidth, mapHeight)
-        }
+        map.frame = CGRectMake(insets.left, insets.top, mapWidth, mapHeight)
         
         timeLabel.frame = CGRectMake(0, 0, 1000, 1000)
         timeLabel.sizeToFit()
         
-        let timeWidth = (isOut ? 23 : 0) + timeLabel.bounds.width
+        let timeWidth = timeLabel.bounds.width
         let timeHeight: CGFloat = 20
         
         timeLabel.frame = CGRectMake(map.frame.maxX - timeWidth - 18, map.frame.maxY - timeHeight - 6, timeLabel.frame.width, timeHeight)
-        
-        if (isOut) {
-            statusView.frame = CGRectMake(timeLabel.frame.maxX, timeLabel.frame.minY, 23, timeHeight)
-        }
         
         pin.frame = CGRectMake((map.width - pin.image!.size.width)/2, (map.height / 2 - pin.image!.size.height),
             pin.image!.size.width, pin.image!.size.height)

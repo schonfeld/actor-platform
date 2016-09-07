@@ -3,8 +3,8 @@
 //
 
 import Foundation
-
 import ActorSDK
+import HockeySDK
 
 @objc public class AppDelegate : ActorApplicationDelegate {
     
@@ -39,6 +39,10 @@ import ActorSDK
     public override func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         super.application(application, didFinishLaunchingWithOptions: launchOptions)
         
+    BITHockeyManager.sharedHockeyManager().configureWithIdentifier("a1f964f1c155443f9b9aa0639772c029")
+        BITHockeyManager.sharedHockeyManager().startManager()
+        BITHockeyManager.sharedHockeyManager().authenticator.authenticateInstallation()
+
         ActorSDK.sharedActor().presentMessengerInNewWindow()
         
         return true;
