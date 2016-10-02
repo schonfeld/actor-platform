@@ -88,7 +88,7 @@ open class AABubbleLocationCell: AABubbleCell {
 
         layoutBubble(mapWidth, contentHeight: mapHeight)
 
-        map.frame = CGRectMake(insets.left, insets.top, mapWidth, mapHeight)
+        map.frame = CGRect(x: insets.left, y: insets.top, width: mapWidth, height: mapHeight)
 
         timeLabel.frame = CGRect(x: 0, y: 0, width: 1000, height: 1000)
         timeLabel.sizeToFit()
@@ -98,8 +98,8 @@ open class AABubbleLocationCell: AABubbleCell {
 
         timeLabel.frame = CGRect(x: map.frame.maxX - timeWidth - 18, y: map.frame.maxY - timeHeight - 6, width: timeLabel.frame.width, height: timeHeight)
 
-        pin.frame = CGRectMake((map.width - pin.image!.size.width)/2, (map.height / 2 - pin.image!.size.height),
-            pin.image!.size.width, pin.image!.size.height)
+        pin.frame = CGRect(x: (map.width - pin.image!.size.width)/2, y: (map.height / 2 - pin.image!.size.height),
+            width: pin.image!.size.width, height: pin.image!.size.height)
 
         timeBg.frame = CGRect(x: timeLabel.frame.minX - 4, y: timeLabel.frame.minY - 1, width: timeWidth + 8, height: timeHeight + 2)
 

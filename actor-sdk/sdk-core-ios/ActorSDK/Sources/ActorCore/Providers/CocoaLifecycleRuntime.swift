@@ -24,7 +24,7 @@ import Foundation
         super.init()
     }
     
-    public func close() {
+    open func close() {
         if background != nil {
             UIApplication.shared.endBackgroundTask(background!)
             background = nil

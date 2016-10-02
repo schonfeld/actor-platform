@@ -8,14 +8,14 @@
 
 import Foundation
 
-public class LikersOverlay {
-    private static var textColor = UIColor(red:1, green:1, blue:1, alpha:1.0)
-    private static var textFont = UIFont.textFontOfSize(14)
-    private static var overlayFont = UIFont.textFontOfSize(20)
-    private static let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.Dark)
-    private static let blurEffectView = UIVisualEffectView(effect: blurEffect)
+open class LikersOverlay {
+    fileprivate static var textColor = UIColor(red:1, green:1, blue:1, alpha:1.0)
+    fileprivate static var textFont = UIFont.textFontOfSize(14)
+    fileprivate static var overlayFont = UIFont.textFontOfSize(20)
+    fileprivate static let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+    fileprivate static let blurEffectView = UIVisualEffectView(effect: blurEffect)
 
-    private let dateFormatter = NSDateFormatter().initFullDateFormatter()
+    fileprivate let dateFormatter = DateFormatter().initFullDateFormatter()
     
     var overlayView = UIView()
     var overlayTitle = UILabel()
@@ -32,11 +32,11 @@ public class LikersOverlay {
         return Static.instance
     }
     
-    public func showOverlay(view: UIView!, message: ACMessage) {
+    open func showOverlay(_ view: UIView!, message: ACMessage) {
         overlayView = UIView(frame: CGRect(
             x: 0,
             y: 0,
-            width: UIScreen.mainScreen().bounds.width - 60,
+            width: UIScreen.main.bounds.width - 60,
             height: 250))
         overlayView.center = view.center
         overlayView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.7)
@@ -46,7 +46,7 @@ public class LikersOverlay {
         // Overlay title
         overlayTitle = UILabel(frame: CGRect(x: 0, y: 5, width: overlayView.bounds.width, height: 35))
         overlayTitle.text = "Message Info"
-        overlayTitle.textAlignment = NSTextAlignment.Center
+        overlayTitle.textAlignment = NSTextAlignment.center
         overlayTitle.font = LikersOverlay.overlayFont
         overlayTitle.textColor = LikersOverlay.textColor
         overlayView.addSubview(overlayTitle)
@@ -54,18 +54,18 @@ public class LikersOverlay {
         // Likers information
         likersTitle = UILabel(frame: CGRect(x: 5, y: 60, width: overlayView.bounds.width - 10, height: 20))
         likersTitle.text = "liked by"
-        likersTitle.textAlignment = NSTextAlignment.Left
+        likersTitle.textAlignment = NSTextAlignment.left
         likersTitle.textColor = LikersOverlay.textColor
         likersTitle.font = LikersOverlay.textFont
         let likersTitleBottomLine = CALayer()
-        likersTitleBottomLine.frame = CGRectMake(0, 20, overlayView.bounds.width-10, 1.0)
-        likersTitleBottomLine.backgroundColor = UIColor.whiteColor().CGColor
+        likersTitleBottomLine.frame = CGRect(x:0, y:20, width:(overlayView.bounds.width-10), height: 1.0)
+        likersTitleBottomLine.backgroundColor = UIColor.white.cgColor
         likersTitle.layer.addSublayer(likersTitleBottomLine)
         overlayView.addSubview(likersTitle)
         
         var likers:[String] = [];
         if(message.reactions != nil && message.reactions.size() > 0) {
-            let uids = message.reactions.getWithInt(0).getUids() as JavaUtilList;
+            let uids = (message.reactions.getWith(0) as AnyObject).getUids() as JavaUtilList;
 
             for uid:Int in uids.toSwiftArray() {
                 let user = Actor.getUserWithUid(jint(uid))
@@ -78,10 +78,10 @@ public class LikersOverlay {
         }
         
         likersLabel = UILabel(frame: CGRect(x: 5, y: 84, width: overlayView.bounds.width - 10, height: 70))
-        likersLabel.text = likers.joinWithSeparator(", ")
+        likersLabel.text = likers.joined(separator: ", ")
         likersLabel.font = LikersOverlay.textFont
         likersLabel.textColor = LikersOverlay.textColor
-        likersLabel.lineBreakMode = NSLineBreakMode.ByWordWrapping
+        likersLabel.lineBreakMode = NSLineBreakMode.byWordWrapping
         likersLabel.numberOfLines = 0
         likersLabel.sizeToFit()
         overlayView.addSubview(likersLabel)
@@ -89,17 +89,17 @@ public class LikersOverlay {
         // Sent at
         sentAtTitle = UILabel(frame: CGRect(x: 5, y: 150, width: overlayView.bounds.width - 10, height: 20))
         sentAtTitle.text = "sent at"
-        sentAtTitle.textAlignment = NSTextAlignment.Left
+        sentAtTitle.textAlignment = NSTextAlignment.left
         sentAtTitle.textColor = LikersOverlay.textColor
         sentAtTitle.font = LikersOverlay.textFont
         let sentAtBottomLine = CALayer()
-        sentAtBottomLine.frame = CGRectMake(0, 20, overlayView.bounds.width-10, 1.0)
-        sentAtBottomLine.backgroundColor = UIColor.whiteColor().CGColor
+        sentAtBottomLine.frame = CGRect(x:0,y:0,width:(overlayView.bounds.width-10), height: 1.0);
+        sentAtBottomLine.backgroundColor = UIColor.white.cgColor
         sentAtTitle.layer.addSublayer(sentAtBottomLine)
         overlayView.addSubview(sentAtTitle)
 
         sentAtLabel = UILabel(frame: CGRect(x: 5, y: 170, width: overlayView.bounds.width - 10, height: 30))
-        sentAtLabel.text = dateFormatter.stringFromDate(NSDate(timeIntervalSince1970: NSTimeInterval(Double(message.date) / 1000.0)))
+        sentAtLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(Double(message.date) / 1000.0)))
         sentAtLabel.font = LikersOverlay.textFont
         sentAtLabel.textColor = LikersOverlay.textColor
         overlayView.addSubview(sentAtLabel)
@@ -107,29 +107,29 @@ public class LikersOverlay {
         // Dismiss on tap
         overlayView.gestureRecognizers?.removeAll()
         overlayView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(LikersOverlay.hideOverlayView)))
-        overlayView.userInteractionEnabled = true
+        overlayView.isUserInteractionEnabled = true
         
-        LikersOverlay.blurEffectView.frame = UIScreen.mainScreen().bounds
-        LikersOverlay.blurEffectView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        LikersOverlay.blurEffectView.frame = UIScreen.main.bounds
+        LikersOverlay.blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         LikersOverlay.blurEffectView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(LikersOverlay.hideOverlayView)))
-        LikersOverlay.blurEffectView.userInteractionEnabled = true
+        LikersOverlay.blurEffectView.isUserInteractionEnabled = true
         view.addSubview(LikersOverlay.blurEffectView)
 
-        UIView.transitionWithView(view, duration: 0.2, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {view.addSubview(self.overlayView)}, completion: nil)
+        UIView.transition(with: view, duration: 0.2, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {view.addSubview(self.overlayView)}, completion: nil)
     }
     
-    @objc public func hideOverlayView() {
+    @objc open func hideOverlayView() {
         overlayView.removeFromSuperview()
         LikersOverlay.blurEffectView.removeFromSuperview()
     }
     
-    public func isVisible() -> Bool {
+    open func isVisible() -> Bool {
         return overlayView.superview != nil
     }
 }
 
-extension NSDateFormatter {
-    func initFullDateFormatter() -> NSDateFormatter {
+extension DateFormatter {
+    func initFullDateFormatter() -> DateFormatter {
         dateFormat = "EEEE, MMM d, yyyy 'at' HH:mm"
         return self
     }

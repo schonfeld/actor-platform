@@ -56,13 +56,13 @@ open class AABubbleCell: UICollectionViewCell {
     open static let dateSize: CGFloat = 30
     open static let newMessageSize: CGFloat = 30
 
-    private static let outBgColor = UIColor(red:0.87, green:0.94, blue:0.97, alpha:1.0)
-    private static let mentionBgColor = UIColor(red:0.87, green:0.97, blue:0.90, alpha:1.0)
+    fileprivate static let outBgColor = UIColor(red:0.87, green:0.94, blue:0.97, alpha:1.0)
+    fileprivate static let mentionBgColor = UIColor(red:0.87, green:0.97, blue:0.90, alpha:1.0)
 
     //
     // Cached Date bubble images
     //
-    private static var dateBgImage = ActorSDK.sharedActor().style.statusBackgroundImage
+    fileprivate static var dateBgImage = ActorSDK.sharedActor().style.statusBackgroundImage
 
     // MARK: -
     // MARK: Public vars
@@ -71,13 +71,13 @@ open class AABubbleCell: UICollectionViewCell {
     open let avatarView = AAAvatarView()
     open var avatarAdded: Bool = false
 
-    private static var likeImageFilledGray = UIImage.bundled("heart_filled_gray")
-    private static var likeImageFilledRed = UIImage.bundled("heart_filled_red")
-    private static var likeImage = UIImage.bundled("heart_outline")
-    private static var likeCounterColor = UIColor(red:0.62, green:0.62, blue:0.62, alpha:1.0)
-    private static var likeCounterFont = UIFont.textFontOfSize(8)
-    public let likeBtn = UIImageView()
-    public var likeBtnAdded: Bool = false
+    fileprivate static var likeImageFilledGray = UIImage.bundled("heart_filled_gray")
+    fileprivate static var likeImageFilledRed = UIImage.bundled("heart_filled_red")
+    fileprivate static var likeImage = UIImage.bundled("heart_outline")
+    fileprivate static var likeCounterColor = UIColor(red:0.62, green:0.62, blue:0.62, alpha:1.0)
+    fileprivate static var likeCounterFont = UIFont.textFontOfSize(8)
+    open let likeBtn = UIImageView()
+    open var likeBtnAdded: Bool = false
 
     fileprivate let dateText = UILabel()
     fileprivate let dateBg = UIImageView()
@@ -153,10 +153,10 @@ open class AABubbleCell: UICollectionViewCell {
         contentView.addSubview(dateText)
 
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AABubbleCell.avatarDidTap)))
-        avatarView.userInteractionEnabled = true
+        avatarView.isUserInteractionEnabled = true
 
         likeBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AABubbleCell.likeDidTap)))
-        likeBtn.userInteractionEnabled = true
+        likeBtn.isUserInteractionEnabled = true
 
         backgroundColor = UIColor.clear
 
@@ -171,9 +171,9 @@ open class AABubbleCell: UICollectionViewCell {
         let swipeDetector = UISwipeGestureRecognizer(
             target: self,
             action: #selector(AABubbleCell.contentViewDidSwipe))
-        swipeDetector.direction = UISwipeGestureRecognizerDirection.Left
+        swipeDetector.direction = UISwipeGestureRecognizerDirection.left
         contentView.addGestureRecognizer(swipeDetector)
-        contentView.userInteractionEnabled = true;
+        contentView.isUserInteractionEnabled = true;
     }
 
     public required init(coder aDecoder: NSCoder) {
@@ -223,12 +223,12 @@ open class AABubbleCell: UICollectionViewCell {
 
             if (bindedMessage!.reactions != nil &&
                 bindedMessage!.reactions.size() > 0 &&
-                bindedMessage!.reactions.getWithInt(0).getUids() != nil &&
-                (bindedMessage!.reactions.getWithInt(0).getUids() as JavaUtilList).containsWithId(Actor.myUid().toNSNumber())) {
-                controller.execute(Actor.removeReactionWithPeer(self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
+                (bindedMessage!.reactions.getWith(0) as AnyObject).getUids() != nil &&
+                ((bindedMessage!.reactions.getWith(0) as AnyObject).getUids() as JavaUtilList).contains(withId: Actor.myUid().toNSNumber())) {
+                controller.execute(Actor.removeReaction(with: self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
             }
             else {
-                controller.execute(Actor.addReactionWithPeer(self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
+                controller.execute(Actor.addReaction(with: self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
             }
         }
     }
@@ -239,11 +239,11 @@ open class AABubbleCell: UICollectionViewCell {
             reuse = true
         }
         isOut = message.senderId == Actor.myUid();
-        backgroundColor = isOut ? AABubbleCell.outBgColor : UIColor.clearColor()
+        backgroundColor = isOut ? AABubbleCell.outBgColor : UIColor.clear
         bindedMessage = message
 
         if let textContent = message.content as? ACTextContent {
-            if textContent.getMentions().containsWithId(Actor.myUid().toNSNumber()) {
+            if textContent.getMentions().contains(withId: Actor.myUid().toNSNumber()) {
                 backgroundColor = AABubbleCell.mentionBgColor
             }
         }
@@ -272,7 +272,7 @@ open class AABubbleCell: UICollectionViewCell {
 
                 if bindedMessage != nil {
                     let likeCount = UILabel()
-                    likeCount.textAlignment = NSTextAlignment.Center
+                    likeCount.textAlignment = NSTextAlignment.center
                     likeCount.font = AABubbleCell.likeCounterFont
                     likeCount.textColor = AABubbleCell.likeCounterColor
                     likeCount.frame = CGRect(x: 11, y: 14, width: 9, height: 9);
@@ -280,8 +280,8 @@ open class AABubbleCell: UICollectionViewCell {
                     likeBtn.image = AABubbleCell.likeImage
 
                     if(bindedMessage!.reactions != nil && bindedMessage!.reactions.size() > 0) {
-                        let uids = bindedMessage!.reactions.getWithInt(0).getUids() as JavaUtilList;
-                        if(uids.containsWithId(Actor.myUid().toNSNumber())) {
+                        let uids = (bindedMessage!.reactions.getWith(0) as AnyObject).getUids() as JavaUtilList;
+                        if(uids.contains(withId: Actor.myUid().toNSNumber())) {
                             likeBtn.image = AABubbleCell.likeImageFilledRed
                         }
                         else {
@@ -329,7 +329,7 @@ open class AABubbleCell: UICollectionViewCell {
         fatalError("bind(message:) has not been implemented")
     }
 
-    public func bindBubbleType(type: BubbleType, isCompact: Bool) {
+    open func bindBubbleType(_ type: BubbleType, isCompact: Bool) {
     }
 
     func updateView() {
@@ -403,10 +403,10 @@ open class AABubbleCell: UICollectionViewCell {
     }
 
     // Need to be called in child cells
-    public func layoutBubble(contentWidth: CGFloat, contentHeight: CGFloat) {
+    open func layoutBubble(_ contentWidth: CGFloat, contentHeight: CGFloat) {
     }
 
-    public func layoutBubble(frame: CGRect) {
+    open func layoutBubble(_ frame: CGRect) {
     }
 
     open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {

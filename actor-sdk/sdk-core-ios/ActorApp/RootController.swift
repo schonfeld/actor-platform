@@ -7,7 +7,7 @@ import UIKit
 import MessageUI
 import ActorSDK
 
-public class RootController : AARootTabViewController {
+open class RootController : AARootTabViewController {
     public override init() {
         super.init()
         self.viewControllers = self.getMainNavigations()
@@ -18,12 +18,12 @@ public class RootController : AARootTabViewController {
         fatalError("Not implemented")
     }
     
-    public override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         self.hidePlaceholders()
     }
     
-    private func getMainNavigations() -> [AANavigationController] {
+    fileprivate func getMainNavigations() -> [AANavigationController] {
         let allControllers = ActorSDK.sharedActor().delegate.actorRootControllers()
         
         if let all = allControllers {

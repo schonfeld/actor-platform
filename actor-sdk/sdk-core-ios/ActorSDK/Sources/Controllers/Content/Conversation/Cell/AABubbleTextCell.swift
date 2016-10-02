@@ -11,8 +11,8 @@ open class AABubbleTextCell : AABubbleCell {
     // TODO: Better max width calculations
 
     static let fontSize: CGFloat = 16
-    private static let dateFont = UIFont.italicSystemFontOfSize(11)
-    private static let senderFont = UIFont.textFontOfSize(12)
+    fileprivate static let dateFont = UIFont.italicSystemFont(ofSize: 11)
+    fileprivate static let senderFont = UIFont.textFontOfSize(12)
 
     static let senderHeight = CGFloat(20)
 
@@ -47,7 +47,6 @@ open class AABubbleTextCell : AABubbleCell {
         }
 
         messageText.highlightLongPressAction = { (containerView: UIView, text: NSAttributedString, range: NSRange, rect: CGRect) -> () in
-            self.bubble
             let attributes = text.attributes(at: range.location, effectiveRange: nil)
             if let attrs = attributes["YYTextHighlight"] as? YYTextHighlight {
                 if let url = attrs.userInfo!["url"] as? String {
@@ -75,7 +74,7 @@ open class AABubbleTextCell : AABubbleCell {
         statusView.contentMode = UIViewContentMode.center
 
         senderNameLabel.font = UIFont.textFontOfSize(14)
-        senderNameLabel.textColor = UIColor.grayColor()
+        senderNameLabel.textColor = UIColor.gray
 
         contentView.addSubview(messageText)
         // contentView.addSubview(dateText)
@@ -217,8 +216,8 @@ open class AABubbleTextCell : AABubbleCell {
 
         // Layout elements
         self.messageText.frame.origin = CGPoint(x: insets.left, y: insets.top/* + topPadding*/)
-        self.dateText.frame = CGRectMake(insets.left + bubbleWidth - 47 + 46 - dateWidth, bubbleHeight + insets.top - 20, dateWidth, 26)
-        self.statusView.hidden = true
+        self.dateText.frame = CGRect(x: insets.left + bubbleWidth - 47 + 46 - dateWidth, y: bubbleHeight + insets.top - 20, width: dateWidth, height: 26)
+        self.statusView.isHidden = true
         self.senderNameLabel.frame = CGRect(x: insets.left, y: insets.top - 18, width: contentWidth, height: 20)
 
         layoutBubble(bubbleWidth, contentHeight: bubbleHeight)
@@ -229,15 +228,15 @@ open class AABubbleTextCell : AABubbleCell {
     Text cell layout
 */
 open class TextCellLayout: AACellLayout {
-    private class func maxTextWidth(isOut: Bool, peer: ACPeer) -> CGFloat {
+    fileprivate class func maxTextWidth(_ isOut: Bool, peer: ACPeer) -> CGFloat {
         if peer.isGroup {
-            return UIScreen.mainScreen().bounds.width - 90
+            return UIScreen.main.bounds.width - 90
         } else {
-            return UIScreen.mainScreen().bounds.width - 40
+            return UIScreen.main.bounds.width - 40
         }
     }
 
-    private class func timeWidth(isOut: Bool) -> CGFloat {
+    fileprivate class func timeWidth(_ isOut: Bool) -> CGFloat {
         return 36
     }
 

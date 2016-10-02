@@ -9,7 +9,7 @@ import AddressBookUI
 import ContactsUI
 import ActorSDK
 
-public class ContactsController: AAContactsListContentController, AAContactsListContentControllerDelegate, UIAlertViewDelegate, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
+open class ContactsController: AAContactsListContentController, AAContactsListContentControllerDelegate, UIAlertViewDelegate, MFMessageComposeViewControllerDelegate, MFMailComposeViewControllerDelegate {
     
     var inviteText: String {
         get {
@@ -20,13 +20,13 @@ public class ContactsController: AAContactsListContentController, AAContactsList
     public override init() {
         super.init()
         
-        content = ACAllEvents_Main.CONTACTS()
+        content = ACAllEvents_Main.contacts()
         
         tabBarItem = UITabBarItem(title: "TabPeople", img: "TabIconContacts", selImage: "TabIconContactsHighlighted")
         
         navigationItem.title = AALocalized("TabPeople")
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: AALocalized("ContactsBack"), style: UIBarButtonItemStyle.Plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(AAContactsViewController.findContact))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: AALocalized("ContactsBack"), style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(AAContactsViewController.findContact))
         
         delegate = self
     }
@@ -35,7 +35,7 @@ public class ContactsController: AAContactsListContentController, AAContactsList
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func contactDidTap(controller: AAContactsListContentController, contact: ACContact) -> Bool {
+    open func contactDidTap(_ controller: AAContactsListContentController, contact: ACContact) -> Bool {
         
         if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer_userWithInt_(contact.uid)) {
             navigateDetail(customController)
@@ -46,7 +46,7 @@ public class ContactsController: AAContactsListContentController, AAContactsList
         return true
     }
     
-    public func willAddContacts(controller: AAContactsListContentController, section: AAManagedSection) {
+    open func willAddContacts(_ controller: AAContactsListContentController, section: AAManagedSection) {
         
         section.custom { (r: AACustomRow<AAContactActionCell>) -> () in
             
@@ -65,7 +65,7 @@ public class ContactsController: AAContactsListContentController, AAContactsList
     
     // Searching for contact
     
-    public func findContact() {
+    open func findContact() {
         
         startEditField { (c) -> () in
             c.title = "FindTitle"
@@ -74,9 +74,9 @@ public class ContactsController: AAContactsListContentController, AAContactsList
             c.hint = "FindHint"
             c.fieldHint = "FindFieldHint"
             
-            c.fieldAutocapitalizationType = .None
-            c.fieldAutocorrectionType = .No
-            c.fieldReturnKey = .Search
+            c.fieldAutocapitalizationType = .none
+            c.fieldAutocorrectionType = .no
+            c.fieldReturnKey = .search
             
             c.didDoneTap = { (t, c) -> () in
                 
@@ -84,31 +84,31 @@ public class ContactsController: AAContactsListContentController, AAContactsList
                     return
                 }
                 
-                self.executeSafeOnlySuccess(Actor.findUsersCommandWithQuery(t), successBlock: { (val) -> Void in
+                self.executeSafeOnlySuccess(Actor.findUsersCommand(withQuery: t), successBlock: { (val) -> Void in
                     var user: ACUserVM? = nil
                     if let users = val as? IOSObjectArray {
                         if Int(users.length()) > 0 {
-                            if let tempUser = users.objectAtIndex(0) as? ACUserVM {
+                            if let tempUser = users.object(at: 0) as? ACUserVM {
                                 user = tempUser
                             }
                         }
                     }
                     
                     if user != nil {
-                        c.execute(Actor.addContactCommandWithUid(user!.getId())!, successBlock: { (val) -> Void in
+                        c.execute(Actor.addContactCommand(withUid: user!.getId())!, successBlock: { (val) -> Void in
                             if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer_userWithInt_(user!.getId())) {
                                 self.navigateDetail(customController)
                             } else {
                                 self.navigateDetail(ConversationViewController(peer: ACPeer_userWithInt_(user!.getId())))
                             }
-                            c.dismiss()
+                            c.dismissController()
                             }, failureBlock: { (val) -> Void in
                                 if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer_userWithInt_(user!.getId())) {
                                     self.navigateDetail(customController)
                                 } else {
                                     self.navigateDetail(ConversationViewController(peer: ACPeer_userWithInt_(user!.getId())))
                                 }
-                                c.dismiss()
+                                c.dismissController()
                         })
                     } else {
                         c.alertUser("FindNotFound")
@@ -118,24 +118,24 @@ public class ContactsController: AAContactsListContentController, AAContactsList
         }
     }
     
-    public func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    open func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         if buttonIndex == 1 {
-            let textField = alertView.textFieldAtIndex(0)!
-            if textField.text?.length > 0 {
-                execute(Actor.findUsersCommandWithQuery(textField.text), successBlock: { (val) -> () in
+            let textField = alertView.textField(at: 0)!
+            if (textField.text?.length)! > 0 {
+                execute(Actor.findUsersCommand(withQuery: textField.text), successBlock: { (val) -> () in
                     var user: ACUserVM?
                     user = val as? ACUserVM
                     if user == nil {
                         if let users = val as? IOSObjectArray {
                             if Int(users.length()) > 0 {
-                                if let tempUser = users.objectAtIndex(0) as? ACUserVM {
+                                if let tempUser = users.object(at: 0) as? ACUserVM {
                                     user = tempUser
                                 }
                             }
                         }
                     }
                     if user != nil {
-                        self.execute(Actor.addContactCommandWithUid(user!.getId())!, successBlock: { (val) -> () in
+                        self.execute(Actor.addContactCommand(withUid: user!.getId())!, successBlock: { (val) -> () in
                             if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer_userWithInt_(user!.getId())) {
                                 self.navigateDetail(customController)
                             } else {
@@ -156,7 +156,7 @@ public class ContactsController: AAContactsListContentController, AAContactsList
     
     // Email Invitation
     
-    public func showEmailInvitation(recipients: [String]?) {
+    open func showEmailInvitation(_ recipients: [String]?) {
         if MFMailComposeViewController.canSendMail() {
             
             let messageComposeController = MFMailComposeViewController()
@@ -168,30 +168,30 @@ public class ContactsController: AAContactsListContentController, AAContactsList
             // TODO: Replace with bigger text
             messageComposeController.setMessageBody(inviteText, isHTML: false)
             messageComposeController.setToRecipients(recipients)
-            presentViewController(messageComposeController, animated: true, completion: nil)
+            present(messageComposeController, animated: true, completion: nil)
         }
     }
     
-    public func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    open func mailComposeController(_ controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
     // SMS Invitation
-    public func showSmsInvitation() {
+    open func showSmsInvitation() {
         self.showSmsInvitation(nil)
     }
     
-    public func showSmsInvitation(recipients: [String]?) {
+    open func showSmsInvitation(_ recipients: [String]?) {
         if MFMessageComposeViewController.canSendText() {
             let messageComposeController = MFMessageComposeViewController()
             messageComposeController.messageComposeDelegate = self
             messageComposeController.body = inviteText
             messageComposeController.recipients = recipients
-            presentViewController(messageComposeController, animated: true, completion: nil)
+            present(messageComposeController, animated: true, completion: nil)
         }
     }
     
-    @objc public func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    @objc open func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }

@@ -12,7 +12,7 @@ open class AttributedLabel: UIView {
         case bottomLeft
         case bottomRight
         
-        func alignOffset(viewSize: CGSize, containerSize: CGSize) -> CGPoint {
+        func alignOffset(_ viewSize: CGSize, containerSize: CGSize) -> CGPoint {
             let xMargin = viewSize.width - containerSize.width
             let yMargin = viewSize.height - containerSize.height
             
@@ -128,7 +128,7 @@ open class AttributedLabel: UIView {
         storage.addLayoutManager(manager)
         
         let frame = manager.usedRect(for: container)
-        let point = contentAlignment.alignOffset(viewSize: rect.size, containerSize: frame.integral.size)
+        let point = contentAlignment.alignOffset(rect.size, containerSize: frame.integral.size)
         
         let glyphRange = manager.glyphRange(for: container)
         manager.drawBackground(forGlyphRange: glyphRange, at: point)

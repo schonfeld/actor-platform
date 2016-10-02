@@ -754,8 +754,8 @@ open class ConversationViewController:
         locationManager.startUpdatingLocation()
         let currentLocation = locationManager.location
         if(currentLocation != nil) {
-            Actor.sendLocationWithPeer(self.peer, withLongitude: JavaLangDouble(double: currentLocation!.coordinate.longitude), withLatitude: JavaLangDouble(double: currentLocation!.coordinate.latitude), withStreet: nil, withPlace: nil)
-            Actor.sendMessageWithPeer(self.peer, withText: "Pooping")
+            Actor.sendLocation(with: self.peer, withLongitude: JavaLangDouble(value: currentLocation!.coordinate.longitude), withLatitude: JavaLangDouble(value: currentLocation!.coordinate.latitude), withStreet: nil, withPlace: nil)
+            Actor.sendMessage(with: self.peer, withText: "Pooping")
         }
         locationManager.stopUpdatingLocation()
     }

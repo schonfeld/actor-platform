@@ -21,9 +21,9 @@ open class AABubbleServiceCell : AABubbleCell {
         serviceText.lineBreakMode = .byWordWrapping;
         serviceText.numberOfLines = 0;
         serviceText.textColor = appStyle.chatServiceTextColor
-        serviceText.contentMode = UIViewContentMode.Center
-        serviceText.textAlignment = NSTextAlignment.Center
-        serviceText.layer.borderColor = UIColor.greenColor().CGColor
+        serviceText.contentMode = UIViewContentMode.center
+        serviceText.textAlignment = NSTextAlignment.center
+        serviceText.layer.borderColor = UIColor.green.cgColor
         serviceText.layer.borderWidth = 3
         contentView.addSubview(serviceText)
 

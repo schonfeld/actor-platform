@@ -322,7 +322,7 @@ open class AABubbleMediaCell : AABubbleBaseFileCell, NYTPhotosViewControllerDele
 
         layoutBubble(bubbleWidth, contentHeight: bubbleHeight)
 
-        preview.frame = CGRectMake(insets.left, insets.top, bubbleWidth, bubbleHeight)
+        preview.frame = CGRect(x: insets.left, y: insets.top, width: bubbleWidth, height: bubbleHeight)
 
 
         playView.centerIn(preview.frame)
@@ -337,7 +337,7 @@ open class AABubbleMediaCell : AABubbleBaseFileCell, NYTPhotosViewControllerDele
 
         timeLabel.frame = CGRect(x: preview.frame.maxX - timeWidth - 8, y: preview.frame.maxY - timeHeight - 4, width: timeLabel.frame.width, height: timeHeight)
 
-        timeBg.frame = CGRectMake(timeLabel.frame.minX - 6, timeLabel.frame.minY, timeWidth + 10, timeHeight)
+        timeBg.frame = CGRect(x: timeLabel.frame.minX - 6, y: timeLabel.frame.minY, width: timeWidth + 10, height: timeHeight)
     }
 
     // Photo preview
