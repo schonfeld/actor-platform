@@ -6,50 +6,52 @@ import Foundation
 import UIKit
 import YYImage
 
-public class AABubbleTextCell : AABubbleCell {
-    
+open class AABubbleTextCell : AABubbleCell {
+
     // TODO: Better max width calculations
-    
+
     static let fontSize: CGFloat = 16
     private static let dateFont = UIFont.italicSystemFontOfSize(11)
     private static let senderFont = UIFont.textFontOfSize(12)
+
     static let senderHeight = CGFloat(20)
-    
-    private let messageText = YYLabel()
-    private let senderNameLabel = YYLabel()
-    private let dateText = YYLabel()
-    private let statusView = UIImageView()
-    
-    private var needRelayout = true
-    private var isClanchTop:Bool = false
-    private var isClanchBottom:Bool = false
-    
-    private var dateWidth: CGFloat = 0
-    
-    private var cellLayout: TextCellLayout!
-    
+
+    fileprivate let messageText = YYLabel()
+    fileprivate let senderNameLabel = YYLabel()
+    fileprivate let dateText = YYLabel()
+    fileprivate let statusView = UIImageView()
+
+    fileprivate var needRelayout = true
+    fileprivate var isClanchTop:Bool = false
+    fileprivate var isClanchBottom:Bool = false
+
+    fileprivate var dateWidth: CGFloat = 0
+
+    fileprivate var cellLayout: TextCellLayout!
+
     public init(frame: CGRect) {
         super.init(frame: frame, isFullSize: false)
-        
+
         messageText.displaysAsynchronously = true
         messageText.ignoreCommonProperties = true
         messageText.fadeOnAsynchronouslyDisplay = true
         messageText.clearContentsBeforeAsynchronouslyDisplay = true
-        
+
         messageText.highlightTapAction = { (containerView: UIView, text: NSAttributedString, range: NSRange, rect: CGRect) -> () in
-            let attributes = text.attributesAtIndex(range.location, effectiveRange: nil)
+            let attributes = text.attributes(at: range.location, effectiveRange: nil)
             if let attrs = attributes["YYTextHighlight"] as? YYTextHighlight {
                 if let url = attrs.userInfo!["url"] as? String {
-                    self.openUrl(NSURL(string: url)!)
+                    self.openUrl(URL(string: url)!)
                 }
             }
         }
-        
+
         messageText.highlightLongPressAction = { (containerView: UIView, text: NSAttributedString, range: NSRange, rect: CGRect) -> () in
-            let attributes = text.attributesAtIndex(range.location, effectiveRange: nil)
+            self.bubble
+            let attributes = text.attributes(at: range.location, effectiveRange: nil)
             if let attrs = attributes["YYTextHighlight"] as? YYTextHighlight {
                 if let url = attrs.userInfo!["url"] as? String {
-                    self.urlLongTap(NSURL(string: url)!)
+                    self.urlLongTap(URL(string: url)!)
                 }
             }
         }
@@ -58,58 +60,58 @@ public class AABubbleTextCell : AABubbleCell {
         senderNameLabel.ignoreCommonProperties = true
         senderNameLabel.fadeOnAsynchronouslyDisplay = true
         senderNameLabel.clearContentsBeforeAsynchronouslyDisplay = true
-        
-        
+
+
         dateText.displaysAsynchronously = true
         dateText.ignoreCommonProperties = true
         // dateText.fadeOnAsynchronouslyDisplay = false
         // dateText.clearContentsBeforeAsynchronouslyDisplay = true
-        
+
 //        dateText.font = AABubbleTextCell.dateFont
 //        dateText.lineBreakMode = .ByClipping
 //        dateText.numberOfLines = 1
 //        dateText.textAlignment = .Right
-        
-        statusView.contentMode = UIViewContentMode.Center
-        
+
+        statusView.contentMode = UIViewContentMode.center
+
         senderNameLabel.font = UIFont.textFontOfSize(14)
         senderNameLabel.textColor = UIColor.grayColor()
-        
+
         contentView.addSubview(messageText)
         // contentView.addSubview(dateText)
         contentView.addSubview(statusView)
         contentView.addSubview(senderNameLabel)
     }
-    
+
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // Data binding
-    
-    public override func bind(message: ACMessage, receiveDate: jlong, readDate: jlong, reuse: Bool, cellLayout: AACellLayout, setting: AACellSetting) {
-        
+
+    open override func bind(_ message: ACMessage, receiveDate: jlong, readDate: jlong, reuse: Bool, cellLayout: AACellLayout, setting: AACellSetting) {
+
         // Saving cell settings
         self.cellLayout = cellLayout as! TextCellLayout
         self.isClanchTop = true
         self.isClanchBottom = false
-        
+
         if (!reuse) {
-            
+
             // When not reusing force to relayout view
             needRelayout = true
 
             // Text Layout
             messageText.textLayout = self.cellLayout.textLayout
-            
-            senderNameLabel.hidden = false
+
+            senderNameLabel.isHidden = false
             senderNameLabel.textLayout = self.cellLayout.senderLayout
         }
-        
+
         // Always update bubble insets
-            bindBubbleType(.TextIn, isCompact: isClanchBottom)
+            bindBubbleType(.textIn, isCompact: isClanchBottom)
             // dateText.textColor = appStyle.chatTextDateInColor
-            
+
             bubbleInsets = UIEdgeInsets(
                 top: (isClanchTop ? AABubbleCell.bubbleTopCompact : AABubbleCell.bubbleTop),
                 left: (isClanchBottom ? 10 : 4) + (AADevice.isiPad ? 16 : 0),
@@ -123,7 +125,7 @@ public class AABubbleTextCell : AABubbleCell {
 
         dateText.textLayout = self.cellLayout.dateLayout
         dateWidth = self.cellLayout.dateWidth!
-        
+
         if (isOut) {
             switch(message.messageState.toNSEnum()) {
             case .SENT:
@@ -153,65 +155,65 @@ public class AABubbleTextCell : AABubbleCell {
             }
         }
     }
-    
+
     // Menu for Text cell
-    
-    public override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        if action == #selector(NSObject.copy(_:)) {
-            if (bindedMessage!.content is ACTextContent) {
-                return true
-            }
-        }
-        if action == #selector(NSObject.delete(_:)) {
-            return true
-        }
-        return false
-    }
-    
-    public override func copy(sender: AnyObject?) {
-        UIPasteboard.generalPasteboard().string = (bindedMessage!.content as! ACTextContent).text
-    }
-    
-    public func urlLongTap(url: NSURL) {
+
+//    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+//        if action == #selector(NSObject.copy(_:)) {
+//            if (bindedMessage!.content is ACTextContent) {
+//                return true
+//            }
+//        }
+//        if action == #selector(NSObject.delete(_:)) {
+//            return true
+//        }
+//        return false
+//    }
+//
+//    open override func copy(_ sender: AnyObject?) {
+//        UIPasteboard.general.string = (bindedMessage!.content as! ACTextContent).text
+//    }
+
+    open func urlLongTap(_ url: URL) {
         if url.scheme != "source" && url.scheme == "send" {
-            let actionSheet: UIAlertController = UIAlertController(title: nil, message: url.absoluteString, preferredStyle: .ActionSheet)
-            actionSheet.addAction(UIAlertAction(title: AALocalized("ActionOpenLink"), style: .Default, handler: { action in
+            let actionSheet: UIAlertController = UIAlertController(title: nil, message: url.absoluteString, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: AALocalized("ActionOpenLink"), style: .default, handler: { action in
                 self.openUrl(url)
             }))
-            actionSheet.addAction(UIAlertAction(title: AALocalized("ActionCopyLink"), style: .Default, handler: { action in
-                UIPasteboard.generalPasteboard().string = url.absoluteString
+            actionSheet.addAction(UIAlertAction(title: AALocalized("ActionCopyLink"), style: .default, handler: { action in
+                UIPasteboard.general.string = url.absoluteString
                 self.controller.alertUser("AlertLinkCopied")
             }))
-            actionSheet.addAction(UIAlertAction(title: AALocalized("ActionCancel"), style: .Cancel, handler:nil))
-            self.controller.presentViewController(actionSheet, animated: true, completion: nil)
+            actionSheet.addAction(UIAlertAction(title: AALocalized("ActionCancel"), style: .cancel, handler:nil))
+            self.controller.present(actionSheet, animated: true, completion: nil)
         }
     }
-    
-    public func openUrl(url: NSURL) {
+
+    open func openUrl(_ url: URL) {
         if url.scheme == "source" {
-            let path = url.path!
-            let index = Int(path.substringFromIndex(path.startIndex.advancedBy(1)))!
+            let path = url.path
+            let index = Int(path.substring(from: path.characters.index(path.startIndex, offsetBy: 1)))!
             let code = self.cellLayout.sources[index]
             self.controller.navigateNext(AACodePreviewController(code: code), removeCurrent: false)
         } else if url.scheme == "send" {
-            Actor.sendMessageWithPeer(self.peer, withText: url.absoluteString.skip(5))
+            Actor.sendMessage(with: self.peer, withText: url.absoluteString.skip(5))
         } else {
             ActorSDK.sharedActor().openUrl(url.absoluteString)
         }
     }
-    
+
     // Layouting
-    
-    public override func layoutContent(maxWidth: CGFloat, offsetX: CGFloat) {
-        
+
+    open override func layoutContent(_ maxWidth: CGFloat, offsetX: CGFloat) {
+
         // Convenience
         let insets = fullContentInsets
         let contentWidth = self.contentView.frame.width
         let textSize = self.cellLayout.textLayout.textBoundingSize
         let bubbleWidth = round(self.cellLayout.bubbleSize.width)
         let bubbleHeight = round(self.cellLayout.bubbleSize.height)
-        
-        self.messageText.frame = CGRectMake(0, 0, textSize.width, textSize.height)
+
+        self.messageText.frame = CGRect(x: 0, y: 0, width: textSize.width, height: textSize.height)
 
         // Layout elements
         self.messageText.frame.origin = CGPoint(x: insets.left, y: insets.top/* + topPadding*/)
@@ -226,8 +228,7 @@ public class AABubbleTextCell : AABubbleCell {
 /**
     Text cell layout
 */
-public class TextCellLayout: AACellLayout {
-    
+open class TextCellLayout: AACellLayout {
     private class func maxTextWidth(isOut: Bool, peer: ACPeer) -> CGFloat {
         if peer.isGroup {
             return UIScreen.mainScreen().bounds.width - 90
@@ -235,52 +236,52 @@ public class TextCellLayout: AACellLayout {
             return UIScreen.mainScreen().bounds.width - 40
         }
     }
-    
+
     private class func timeWidth(isOut: Bool) -> CGFloat {
         return 36
     }
-    
-    private static let textKey = "text"
-    private static let unsupportedKey = "unsupported"
-    
-    private static let stringOutPadding = " " + ("_".repeatString(7));
-    private static let stringInPadding = " " + ("_".repeatString(4));
-    private static let parser = ARMarkdownParser(int: ARMarkdownParser_MODE_FULL)
-    
+
+    fileprivate static let textKey = "text"
+    fileprivate static let unsupportedKey = "unsupported"
+
+    fileprivate static let stringOutPadding = " " + ("_".repeatString(7));
+    fileprivate static let stringInPadding = " " + ("_".repeatString(4));
+    fileprivate static let parser = ARMarkdownParser(int: ARMarkdownParser_MODE_FULL)
+
     var text: String
     var attrText: NSAttributedString
     var textLayout: YYTextLayout
     var senderLayout: YYTextLayout?
     var dateLayout: YYTextLayout?
     var dateWidth: CGFloat?
-    
+
     var isUnsupported: Bool = false
     var bubbleSize: CGSize
     var sources = [String]()
-    
+
     /**
      NSAttributedString layout
      */
     public init(senderId: Int, text: String, attributedText: NSAttributedString, date: Int64, isOut: Bool, peer: ACPeer, layoutKey: String = TextCellLayout.textKey, layouter: AABubbleLayouter) {
-        
+
         // Setting attributed text
         self.text = text
         self.attrText = attributedText
         self.isUnsupported = false
-        
+
         // Calculating maximum text width
         let maxTextWidth = TextCellLayout.maxTextWidth(isOut, peer: peer)
         let timeWidth = TextCellLayout.timeWidth(isOut)
-        
-        let container = YYTextContainer(size: CGSizeMake(maxTextWidth, CGFloat.max))
-        
+
+        let container = YYTextContainer(size: CGSize(width: maxTextWidth, height: CGFloat.greatestFiniteMagnitude))
+
         textLayout = YYTextLayout(container: container, text: attributedText)!
-        
+
         // print("Text Layouted")
-        
+
         // Measuring text and padded text heights
         let textSize = textLayout.textBoundingSize
-        
+
         if textLayout.lines.count == 1 {
             if textLayout.textBoundingSize.width < maxTextWidth - timeWidth {
                 //
@@ -288,7 +289,7 @@ public class TextCellLayout: AACellLayout {
                 //
                 bubbleSize = CGSize(width: textSize.width + timeWidth, height: textSize.height)
             } else {
-                
+
                 //
                 // <line_________0>
                 //           <date>
@@ -326,25 +327,25 @@ public class TextCellLayout: AACellLayout {
                 bubbleSize = CGSize(width: max(timeWidth, maxWidth), height: textSize.height + 16)
             }
         }
-        
+
         // Date Layouting
         if isOut {
             let attrDate = NSMutableAttributedString(string: AACellLayout.formatDate(date))
             attrDate.yy_font = AABubbleTextCell.dateFont
             attrDate.yy_color = ActorSDK.sharedActor().style.chatTextDateOutColor
-            dateLayout = YYTextLayout(containerSize: CGSizeMake(timeWidth, CGFloat.max), text: attrDate)
+            dateLayout = YYTextLayout(containerSize: CGSize(width: timeWidth, height: CGFloat.greatestFiniteMagnitude), text: attrDate)
             dateWidth = dateLayout?.textBoundingSize.width
         } else {
             let attrDate = NSMutableAttributedString(string: AACellLayout.formatDate(date))
             attrDate.yy_font = AABubbleTextCell.dateFont
             attrDate.yy_color = ActorSDK.sharedActor().style.chatTextDateInColor
-            dateLayout = YYTextLayout(containerSize: CGSizeMake(timeWidth, CGFloat.max), text: attrDate)
+            dateLayout = YYTextLayout(containerSize: CGSize(width: timeWidth, height: CGFloat.greatestFiniteMagnitude), text: attrDate)
             dateWidth = dateLayout?.textBoundingSize.width
         }
-        
+
         // Calculating bubble height
         var height = bubbleSize.height + AABubbleCell.bubbleContentTop + AABubbleCell.bubbleContentBottom
-        
+
         if peer.isGroup {
             // Getting Name of sender
             let sender = Actor.getUserWithUid(jint(senderId))
@@ -354,39 +355,39 @@ public class TextCellLayout: AACellLayout {
             } else {
                 senderName = sender.getNameModel().get()
             }
-            
+
             // Building Layout
             let attributedSender = NSMutableAttributedString(string: senderName)
             let range = NSRange(location: 0, length: senderName.length)
             attributedSender.yy_setFont(AABubbleTextCell.senderFont, range: range)
             attributedSender.yy_setColor(UIColor(red:0.62, green:0.62, blue:0.62, alpha:1.0), range: range)
             senderLayout = YYTextLayout(container: container, text: attributedSender)!
-            
+
             // Fixing too small width
             let senderWidth = senderLayout!.textBoundingSize.width
             if bubbleSize.width < senderWidth + 5 {
                 bubbleSize = CGSize(width: senderWidth, height: bubbleSize.height)
             }
-            
+
             height += AABubbleTextCell.senderHeight
         }
-        
+
         // Creating layout
         super.init(height: height, date: date, key: layoutKey, layouter: layouter)
     }
-    
+
     /**
         Formatted text layout. Automatically parse text and detect formatting.
     */
     public convenience init(senderId: Int, formattedText: String, textColor: UIColor, date: Int64, isOut: Bool, peer: ACPeer, layoutKey: String = TextCellLayout.textKey, layouter: AABubbleLayouter) {
-        
+
         // Parsing markdown formatted text
         let parser = TextParser(textColor: textColor, linkColor: ActorSDK.sharedActor().style.chatUrlColor, fontSize: 14)
         let text = parser.parse(formattedText)
-        
+
         // Creating attributed text layout
         self.init(senderId: senderId, text: formattedText, attributedText: text.attributedText, date: date, isOut: isOut, peer: peer, layoutKey: layoutKey, layouter: layouter)
-        
+
         // Setting source code references
         self.sources = text.code
     }
@@ -396,7 +397,7 @@ public class TextCellLayout: AACellLayout {
     */
     public convenience init(message: ACMessage, peer: ACPeer, layouter: AABubbleLayouter) {
         let style = ActorSDK.sharedActor().style
-        
+
         if let content = message.content as? ACTextContent {
             // Creating generic layout
             self.init(
@@ -410,10 +411,10 @@ public class TextCellLayout: AACellLayout {
                 layouter: layouter
             )
         } else {
-            
+
             // Creating unsupported layout
             let unsupportedText = AALocalized("UnsupportedContent")
-            
+
             self.init(
                 senderId: Int(message.senderId),
                 formattedText: "_\(unsupportedText)_",
@@ -431,17 +432,17 @@ public class TextCellLayout: AACellLayout {
 /**
     Text cell layouter
 */
-public class AABubbleTextCellLayouter: AABubbleLayouter {
-    
-    public func buildLayout(peer: ACPeer, message: ACMessage) -> AACellLayout {
+open class AABubbleTextCellLayouter: AABubbleLayouter {
+
+    open func buildLayout(_ peer: ACPeer, message: ACMessage) -> AACellLayout {
         return TextCellLayout(message: message, peer: peer, layouter: self)
     }
-    
-    public func isSuitable(message: ACMessage) -> Bool {
+
+    open func isSuitable(_ message: ACMessage) -> Bool {
         return message.content is ACTextContent
     }
-    
-    public func cellClass() -> AnyClass {
+
+    open func cellClass() -> AnyClass {
         return AABubbleTextCell.self
     }
 }

@@ -7,41 +7,42 @@ import JDStatusBarNotification
 import PushKit
 import SafariServices
 import DZNWebViewController
+import ReachabilitySwift
 
-@objc public class ActorSDK: NSObject, PKPushRegistryDelegate {
+@objc open class ActorSDK: NSObject, PKPushRegistryDelegate {
 
     //
     // Shared instance
     //
-    
-    private static let shared =  ActorSDK()
-    
-    public static func sharedActor() -> ActorSDK {
+
+    fileprivate static let shared =  ActorSDK()
+
+    open static func sharedActor() -> ActorSDK {
         return shared
     }
-    
+
     //
     //  Root Objects
     //
-    
+
     /// Main Messenger object
-    public var messenger : ACCocoaMessenger!
-    
+    open var messenger : ACCocoaMessenger!
+
     // Actor Style
-    public let style = ActorStyle()
-    
+    open let style = ActorStyle()
+
     /// SDK Delegate
-    public var delegate: ActorSDKDelegate = ActorSDKDelegateDefault()
-    
+    open var delegate: ActorSDKDelegate = ActorSDKDelegateDefault()
+
     /// SDK Analytics
-    public var analyticsDelegate: ActorSDKAnalytics?
-    
+    open var analyticsDelegate: ActorSDKAnalytics?
+
     //
     //  Configuration
     //
 
     /// Server Endpoints
-    public var endpoints = [
+    open var endpoints = [
         "tcp://front1-mtproto-api-rev3.actor.im:443",
         "tcp://front2-mtproto-api-rev3.actor.im:443"
     ] {
@@ -49,9 +50,9 @@ import DZNWebViewController
             trustedKeys = []
         }
     }
-    
+
     /// Trusted Server Keys
-    public var trustedKeys = [
+    open var trustedKeys = [
         "d9d34ed487bd5b434eda2ef2c283db587c3ae7fb88405c3834d9d1a6d247145b",
         "4bd5422b50c585b5c8575d085e9fae01c126baa968dab56a396156759d5a7b46",
         "ff61103913aed3a9a689b6d77473bc428d363a3421fdd48a8e307a08e404f02c",
@@ -59,179 +60,179 @@ import DZNWebViewController
         "fc49f2f2465f5b4e038ec7c070975858a8b5542aa6ec1f927a57c4f646e1c143",
         "6709b8b733a9f20a96b9091767ac19fd6a2a978ba0dccc85a9ac8f6b6560ac1a"
     ]
-    
+
     /// API ID
-    public var apiId = 2
-    
+    open var apiId = 2
+
     /// API Key
-    public var apiKey = "2ccdc3699149eac0a13926c77ca84e504afd68b4f399602e06d68002ace965a3"
-    
+    open var apiKey = "2ccdc3699149eac0a13926c77ca84e504afd68b4f399602e06d68002ace965a3"
+
     /// Push registration mode
-    public var autoPushMode = AAAutoPush.AfterLogin
-    
+    open var autoPushMode = AAAutoPush.afterLogin
+
     /// Push token registration id. Required for sending push tokens
-    public var apiPushId: Int? = nil
-    
+    open var apiPushId: Int? = nil
+
     /// Strategy about authentication
-    public var authStrategy = AAAuthStrategy.PhoneOnly
-    
+    open var authStrategy = AAAuthStrategy.phoneOnly
+
     /// Enable phone book import
-    public var enablePhoneBookImport = true
-    
+    open var enablePhoneBookImport = true
+
     /// Invitation URL for apps
-    public var inviteUrl: String = "https://actor.im/dl"
-    
+    open var inviteUrl: String = "https://actor.im/dl"
+
     /// Invitation URL for apps
-    public var invitePrefix: String? = "https://actor.im/join/"
-    
+    open var invitePrefix: String? = "https://actor.im/join/"
+
     /// Invitation URL for apps
-    public var invitePrefixShort: String? = "actor.im/join/"
+    open var invitePrefixShort: String? = "actor.im/join/"
 
     /// Privacy Policy URL
-    public var privacyPolicyUrl: String? = nil
+    open var privacyPolicyUrl: String? = nil
 
     /// Privacy Policy Text
-    public var privacyPolicyText: String? = nil
-    
+    open var privacyPolicyText: String? = nil
+
     /// Terms of Service URL
-    public var termsOfServiceUrl: String? = nil
-    
+    open var termsOfServiceUrl: String? = nil
+
     /// Terms of Service Text
-    public var termsOfServiceText: String? = nil
-    
+    open var termsOfServiceText: String? = nil
+
     /// App name
-    public var appName: String = "Actor"
-    
+    open var appName: String = "Actor"
+
     /// Use background on welcome screen
-    public var useBackgroundOnWelcomeScreen: Bool? = false
-    
+    open var useBackgroundOnWelcomeScreen: Bool? = false
+
     /// Support email
-    public var supportEmail: String? = nil
-    
+    open var supportEmail: String? = nil
+
     /// Support email
-    public var supportActivationEmail: String? = nil
-    
-    /// Support account
-    public var supportAccount: String? = nil
-    
-    /// Support home page
-    public var supportHomepage: String? = "https://actor.im"
+    open var supportActivationEmail: String? = nil
 
     /// Support account
-    public var supportTwitter: String? = "actorapp"
+    open var supportAccount: String? = nil
+
+    /// Support home page
+    open var supportHomepage: String? = "https://actor.im"
+
+    /// Support account
+    open var supportTwitter: String? = "actorapp"
 
     /// Invite url scheme
-    public var inviteUrlScheme: String? = nil
-    
+    open var inviteUrlScheme: String? = nil
+
     /// Web Invite Domain host
-    public var inviteUrlHost: String? = nil
+    open var inviteUrlHost: String? = nil
 
     /// Enable voice calls feature
-    public var enableCalls: Bool = false
-    
+    open var enableCalls: Bool = false
+
     /// Enable video calls feature
-    public var enableVideoCalls: Bool = false
-    
+    open var enableVideoCalls: Bool = false
+
     /// Enable custom sound on Groups and Chats
-    public var enableChatGroupSound: Bool = false
-    
+    open var enableChatGroupSound: Bool = false
+
     /// Enable experimental features
-    public var enableExperimentalFeatures: Bool = false
-    
+    open var enableExperimentalFeatures: Bool = false
+
     /// Auto Join Groups
-    public var autoJoinGroups = [String]()
-    
+    open var autoJoinGroups = [String]()
+
     /// Should perform auto join only after first message or contact
-    public var autoJoinOnReady = true
-    
+    open var autoJoinOnReady = true
+
     //
     // User Onlines
     //
-    
+
     /// Is User online
-    private(set) public var isUserOnline = false
-    
+    fileprivate(set) open var isUserOnline = false
+
     /// Disable this if you want manually handle online states
-    public var automaticOnlineHandling = true
-    
-    
+    open var automaticOnlineHandling = true
+
+
     //
     // Local Settings
     //
-    
+
     // Local Shared Settings
-    private static var udStorage = UDPreferencesStorage()
-    
-    public var isPhotoAutoDownloadGroup: Bool = udStorage.getBoolWithKey("local.photo_download.group", withDefault: true) {
+    fileprivate static var udStorage = UDPreferencesStorage()
+
+    open var isPhotoAutoDownloadGroup: Bool = udStorage.getBoolWithKey("local.photo_download.group", withDefault: true) {
         willSet(v) {
-            ActorSDK.udStorage.putBoolWithKey("local.photo_download.group", withValue: v)
-        }
-    }
-    
-    public var isPhotoAutoDownloadPrivate: Bool = udStorage.getBoolWithKey("local.photo_download.private", withDefault: true) {
-        willSet(v) {
-            ActorSDK.udStorage.putBoolWithKey("local.photo_download.private", withValue: v)
-        }
-    }
-    
-    public var isAudioAutoDownloadGroup: Bool = udStorage.getBoolWithKey("local.audio_download.group", withDefault: true) {
-        willSet(v) {
-            ActorSDK.udStorage.putBoolWithKey("local.audio_download.group", withValue: v)
+            ActorSDK.udStorage.putBool(withKey: "local.photo_download.group", withValue: v)
         }
     }
 
-    public var isAudioAutoDownloadPrivate: Bool = udStorage.getBoolWithKey("local.audio_download.private", withDefault: true) {
+    open var isPhotoAutoDownloadPrivate: Bool = udStorage.getBoolWithKey("local.photo_download.private", withDefault: true) {
         willSet(v) {
-            ActorSDK.udStorage.putBoolWithKey("local.audio_download.private", withValue: v)
+            ActorSDK.udStorage.putBool(withKey: "local.photo_download.private", withValue: v)
         }
     }
-    
-    public var isGIFAutoplayEnabled: Bool = udStorage.getBoolWithKey("local.autoplay_gif", withDefault: true) {
+
+    open var isAudioAutoDownloadGroup: Bool = udStorage.getBoolWithKey("local.audio_download.group", withDefault: true) {
         willSet(v) {
-            ActorSDK.udStorage.putBoolWithKey("local.autoplay_gif", withValue: v)
+            ActorSDK.udStorage.putBool(withKey: "local.audio_download.group", withValue: v)
         }
     }
-    
-    
+
+    open var isAudioAutoDownloadPrivate: Bool = udStorage.getBoolWithKey("local.audio_download.private", withDefault: true) {
+        willSet(v) {
+            ActorSDK.udStorage.putBool(withKey: "local.audio_download.private", withValue: v)
+        }
+    }
+
+    open var isGIFAutoplayEnabled: Bool = udStorage.getBoolWithKey("local.autoplay_gif", withDefault: true) {
+        willSet(v) {
+            ActorSDK.udStorage.putBool(withKey: "local.autoplay_gif", withValue: v)
+        }
+    }
+
+
     //
     // Internal State
     //
-    
+
     /// Is Actor Started
-    private(set) public var isStarted = false
-    
-    private var binder = AABinder()
-    private var syncTask: UIBackgroundTaskIdentifier?
-    private var completionHandler: ((UIBackgroundFetchResult) -> Void)?
-    
+    fileprivate(set) open var isStarted = false
+
+    fileprivate var binder = AABinder()
+    fileprivate var syncTask: UIBackgroundTaskIdentifier?
+    fileprivate var completionHandler: ((UIBackgroundFetchResult) -> Void)?
+
     // View Binding info
-    private(set) public var bindedToWindow: UIWindow!
-    
+    fileprivate(set) open var bindedToWindow: UIWindow!
+
     // Reachability
-    private var reachability: Reachability!
-    
+    fileprivate var reachability: Reachability!
+
     public override init() {
-        
+
         // Auto Loading Application name
-        if let name = NSBundle.mainBundle().objectForInfoDictionaryKey(String(kCFBundleNameKey)) as? String {
+        if let name = Bundle.main.object(forInfoDictionaryKey: String(kCFBundleNameKey)) as? String {
             self.appName = name
         }
     }
-    
-    public func createActor() {
-        
+
+    open func createActor() {
+
         if isStarted {
             return
         }
         isStarted = true
-        
+
         AAActorRuntime.configureRuntime()
-        
-        let builder = ACConfigurationBuilder()
-        
+
+        let builder = ACConfigurationBuilder()!
+
         // Api Connections
-        let deviceKey = NSUUID().UUIDString
-        let deviceName = UIDevice.currentDevice().name
+        let deviceKey = UUID().uuidString
+        let deviceName = UIDevice.current.name
         let appTitle = "Actor iOS"
         for url in endpoints {
             builder.addEndpoint(url)
@@ -240,138 +241,136 @@ import DZNWebViewController
             builder.addTrustedKey(key)
         }
         builder.setApiConfiguration(ACApiConfiguration(appTitle: appTitle, withAppId: jint(apiId), withAppKey: apiKey, withDeviceTitle: deviceName, withDeviceId: deviceKey))
-        
+
         // Providers
         builder.setPhoneBookProvider(PhoneBookProvider())
         builder.setNotificationProvider(iOSNotificationProvider())
         builder.setCallsProvider(iOSCallsProvider())
-        
+
         // Stats
-        builder.setPlatformType(ACPlatformType.IOS())
-        builder.setDeviceCategory(ACDeviceCategory.MOBILE())
-        
+        builder.setPlatformType(ACPlatformType.ios())
+        builder.setDeviceCategory(ACDeviceCategory.mobile())
+
         // Locale
-        for lang in NSLocale.preferredLanguages() {
+        for lang in Locale.preferredLanguages {
             log("Found locale :\(lang)")
             builder.addPreferredLanguage(lang)
         }
-        
+
         // TimeZone
-        let timeZone = NSTimeZone.defaultTimeZone().name
+        let timeZone = TimeZone.current.identifier
         log("Found time zone :\(timeZone)")
         builder.setTimeZone(timeZone)
-  
+
         // AutoJoin
         for s in autoJoinGroups {
-            builder.addAutoJoinGroupWithToken(s)
+            builder.addAutoJoinGroup(withToken: s)
         }
         if autoJoinOnReady {
-            builder.setAutoJoinType(ACAutoJoinType.AFTER_INIT())
+            builder.setAutoJoinType(ACAutoJoinType.after_INIT())
         } else {
-            builder.setAutoJoinType(ACAutoJoinType.IMMEDIATELY())
+            builder.setAutoJoinType(ACAutoJoinType.immediately())
         }
-        
+
         // Logs
         // builder.setEnableFilesLogging(true)
-        
+
         // Application name
         builder.setCustomAppName(appName)
-        
+
         // Config
         builder.setPhoneBookImportEnabled(jboolean(enablePhoneBookImport))
         builder.setVoiceCallsEnabled(jboolean(enableCalls))
         builder.setVideoCallsEnabled(jboolean(enableCalls))
         builder.setIsEnabledGroupedChatList(false)
         // builder.setEnableFilesLogging(true)
-        
+
         // Creating messenger
         messenger = ACCocoaMessenger(configuration: builder.build())
-        
+
         // Configure bubbles
         AABubbles.layouters = delegate.actorConfigureBubbleLayouters(AABubbles.builtInLayouters)
-        
+
         checkAppState()
-        
+
         // Bind Messenger LifeCycle
-        
+
         binder.bind(messenger.getGlobalState().isSyncing, closure: { (value: JavaLangBoolean?) -> () in
             if value!.booleanValue() {
                 if self.syncTask == nil {
-                    self.syncTask = UIApplication.sharedApplication().beginBackgroundTaskWithName("Background Sync", expirationHandler: { () -> Void in
-                        
+                    self.syncTask = UIApplication.shared.beginBackgroundTask(withName: "Background Sync", expirationHandler: { () -> Void in
+
                     })
                 }
             } else {
                 if self.syncTask != nil {
-                    UIApplication.sharedApplication().endBackgroundTask(self.syncTask!)
+                    UIApplication.shared.endBackgroundTask(self.syncTask!)
                     self.syncTask = nil
                 }
                 if self.completionHandler != nil {
-                    self.completionHandler!(UIBackgroundFetchResult.NewData)
+                    self.completionHandler!(UIBackgroundFetchResult.newData)
                     self.completionHandler = nil
                 }
             }
         })
-        
+
         // Bind badge counter
-        
+
         binder.bind(Actor.getGlobalState().globalCounter, closure: { (value: JavaLangInteger?) -> () in
             if let v = value {
-                UIApplication.sharedApplication().applicationIconBadgeNumber = Int(v.integerValue)
+                UIApplication.shared.applicationIconBadgeNumber = Int(v.intValue)
             } else {
-                UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+                UIApplication.shared.applicationIconBadgeNumber = 0
             }
         })
-        
+
         // Push registration
-        
-        if autoPushMode == .FromStart {
+
+        if autoPushMode == .fromStart {
             requestPush()
         }
-        
+
         // Subscribe to network changes
-        
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ActorSDK.reachabilityChanged(_:)), name: ReachabilityChangedNotification, object: reachability)
-            try reachability.startNotifier()
-        } catch {
+
+        reachability = Reachability()!
+        if reachability != nil {
+            reachability.whenReachable = { reachability in
+                self.messenger.forceNetworkCheck()
+            }
+
+            do {
+                try reachability.startNotifier()
+            } catch {
+                print("Unable to start Reachability")
+            }
+        } else {
             print("Unable to create Reachability")
-            return
         }
     }
-    
-    @objc func reachabilityChanged(note: NSNotification) {
-        print("reachabilityChanged (\(reachability.isReachable()))")
-        
-        if reachability.isReachable() {
-            messenger.forceNetworkCheck()
-        }
-    }
-    
+
     func didLoggedIn() {
-        
+
         // Push registration
-        
-        if autoPushMode == .AfterLogin {
+
+        if autoPushMode == .afterLogin {
             requestPush()
         }
-        
+
         var controller: UIViewController! = delegate.actorControllerAfterLogIn()
         if controller == nil {
             controller = delegate.actorControllerForStart()
         }
         if controller == nil {
             let tab = AARootTabViewController()
-            
+
             tab.viewControllers = self.getMainNavigations()
-            
+
             if let index = self.delegate.actorRootInitialControllerIndex() {
                 tab.selectedIndex = index
             } else {
                 tab.selectedIndex = 1
             }
-            
+
             if (AADevice.isiPad) {
                 let splitController = AARootSplitViewController()
                 splitController.viewControllers = [tab, AANoSelectionViewController()]
@@ -382,62 +381,62 @@ import DZNWebViewController
         }
         bindedToWindow.rootViewController = controller!
     }
-    
+
     //
     // Push support
     //
-    
+
     /// Token need to be with stripped everything except numbers and letters
-    func pushRegisterToken(token: String) {
-        
+    func pushRegisterToken(_ token: String) {
+
         if !isStarted {
             fatalError("Messenger not started")
         }
-        
+
         if apiPushId != nil {
-            messenger.registerApplePushWithApnsId(jint(apiPushId!), withToken: token)
+            messenger.registerApplePush(withApnsId: jint(apiPushId!), withToken: token)
         }
     }
-    
-    func pushRegisterKitToken(token: String) {
+
+    func pushRegisterKitToken(_ token: String) {
         if !isStarted {
             fatalError("Messenger not started")
         }
-        
+
         if apiPushId != nil {
-            messenger.registerApplePushKitWithApnsId(jint(apiPushId!), withToken: token)
+            messenger.registerApplePushKit(withApnsId: jint(apiPushId!), withToken: token)
         }
 
     }
-    
-    private func requestPush() {
-        let types: UIUserNotificationType = [.Alert, .Badge, .Sound]
-        let settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: nil)
-        UIApplication.sharedApplication().registerUserNotificationSettings(settings)
-        UIApplication.sharedApplication().registerForRemoteNotifications()
+
+    fileprivate func requestPush() {
+        let types: UIUserNotificationType = [.alert, .badge, .sound]
+        let settings: UIUserNotificationSettings = UIUserNotificationSettings(types: types, categories: nil)
+        UIApplication.shared.registerUserNotificationSettings(settings)
+        UIApplication.shared.registerForRemoteNotifications()
     }
-    
-    private func requestPushKit() {
-        let voipRegistry = PKPushRegistry(queue: dispatch_get_main_queue())
-        voipRegistry.delegate = self        
-        voipRegistry.desiredPushTypes = Set([PKPushTypeVoIP])
+
+    fileprivate func requestPushKit() {
+        let voipRegistry = PKPushRegistry(queue: DispatchQueue.main)
+        voipRegistry.delegate = self
+        voipRegistry.desiredPushTypes = Set([PKPushType.voIP])
     }
-    
-    @objc public func pushRegistry(registry: PKPushRegistry!, didUpdatePushCredentials credentials: PKPushCredentials!, forType type: String!) {
-        if (type == PKPushTypeVoIP) {
+
+    @objc open func pushRegistry(_ registry: PKPushRegistry, didUpdate credentials: PKPushCredentials, forType type: PKPushType) {
+        if (type == PKPushType.voIP) {
             let tokenString = "\(credentials.token)".replace(" ", dest: "").replace("<", dest: "").replace(">", dest: "")
             pushRegisterKitToken(tokenString)
         }
     }
-    
-    @objc public func pushRegistry(registry: PKPushRegistry!, didInvalidatePushTokenForType type: String!) {
-        if (type == PKPushTypeVoIP) {
-            
+
+    @objc open func pushRegistry(_ registry: PKPushRegistry, didInvalidatePushTokenForType type: PKPushType) {
+        if (type == PKPushType.voIP) {
+
         }
     }
-    
-    @objc public func pushRegistry(registry: PKPushRegistry!, didReceiveIncomingPushWithPayload payload: PKPushPayload!, forType type: String!) {
-        if (type == PKPushTypeVoIP) {
+
+    @objc open func pushRegistry(_ registry: PKPushRegistry, didReceiveIncomingPushWith payload: PKPushPayload, forType type: PKPushType) {
+        if (type == PKPushType.voIP) {
             let aps = payload.dictionaryPayload["aps"] as! [NSString: AnyObject]
             if let callId = aps["callId"] as? String {
                 if let attempt = aps["attemptIndex"] as? String {
@@ -446,87 +445,87 @@ import DZNWebViewController
                     Actor.checkCall(jlong(callId)!, withAttempt: 0)
                 }
             } else if let seq = aps["seq"] as? String {
-                // Actor.onPushReceivedWithSeq(jint(seq)!)
+                Actor.onPushReceived(withSeq: jint(seq)!, withAuthId: 0)
             }
         }
     }
-    
+
     /// Get main navigations with check in delegate for customize from SDK
-    private func getMainNavigations() -> [AANavigationController] {
-    
+    fileprivate func getMainNavigations() -> [AANavigationController] {
+
         let allControllers = self.delegate.actorRootControllers()
-        
+
         if let all = allControllers {
-            
+
             var mainNavigations = [AANavigationController]()
-            
+
             for controller in all {
                 mainNavigations.append(AANavigationController(rootViewController: controller))
             }
-            
+
             return mainNavigations
         } else {
 
             var mainNavigations = [AANavigationController]()
-        
+
             ////////////////////////////////////
             // Contacts
             ////////////////////////////////////
-        
+
             if let contactsController = self.delegate.actorControllerForContacts() {
                 mainNavigations.append(AANavigationController(rootViewController: contactsController))
             } else {
                 mainNavigations.append(AANavigationController(rootViewController: AAContactsViewController()))
             }
-        
+
             ////////////////////////////////////
             // Recent dialogs
             ////////////////////////////////////
-        
+
             if let recentDialogs = self.delegate.actorControllerForDialogs() {
                 mainNavigations.append(AANavigationController(rootViewController: recentDialogs))
             } else {
                 mainNavigations.append(AANavigationController(rootViewController: AARecentViewController()))
             }
-        
+
             ////////////////////////////////////
             // Settings
             ////////////////////////////////////
-        
+
             if let settingsController = self.delegate.actorControllerForSettings() {
                 mainNavigations.append(AANavigationController(rootViewController: settingsController))
             } else {
                 mainNavigations.append(AANavigationController(rootViewController: AASettingsViewController()))
             }
-        
-    
+
+
             return mainNavigations
         }
     }
 
-    
+
     //
     // Presenting Messenger
     //
-    
-    public func presentMessengerInWindow(window: UIWindow) {
+
+    open func presentMessengerInWindow(_ window: UIWindow) {
         if !isStarted {
             fatalError("Messenger not started")
         }
-        
+
         self.bindedToWindow = window
-        
+
         if messenger.isLoggedIn() {
-            
-            if autoPushMode == .AfterLogin {
+
+            if autoPushMode == .afterLogin {
                 requestPush()
             }
-            
+
             var controller: UIViewController! = delegate.actorControllerForStart()
             if controller == nil {
                 let tab = AARootTabViewController()
                 tab.viewControllers = self.getMainNavigations()
-                
+
                 if let index = self.delegate.actorRootInitialControllerIndex() {
                     tab.selectedIndex = index
                 } else {
@@ -550,26 +549,26 @@ import DZNWebViewController
                 window.rootViewController = controller
             }
         }
-        
+
         // Bind Status Bar connecting
-        
+
         if !style.statusBarConnectingHidden {
-            
+
             JDStatusBarNotification.setDefaultStyle { (style) -> JDStatusBarStyle! in
-                style.barColor = self.style.statusBarConnectingBgColor
-                style.textColor = self.style.statusBarConnectingTextColor
+                style?.barColor = self.style.statusBarConnectingBgColor
+                style?.textColor = self.style.statusBarConnectingTextColor
                 return style
             }
-            
+
             dispatchOnUi { () -> Void in
                 self.binder.bind(self.messenger.getGlobalState().isSyncing, valueModel2: self.messenger.getGlobalState().isConnecting) {
                     (isSyncing: JavaLangBoolean?, isConnecting: JavaLangBoolean?) -> () in
-                    
+
                     if isSyncing!.booleanValue() || isConnecting!.booleanValue() {
                         if isConnecting!.booleanValue() {
-                            JDStatusBarNotification.showWithStatus(AALocalized("StatusConnecting"))
+                            JDStatusBarNotification.show(withStatus: AALocalized("StatusConnecting"))
                         } else {
-                            JDStatusBarNotification.showWithStatus(AALocalized("StatusSyncing"))
+                            JDStatusBarNotification.show(withStatus: AALocalized("StatusSyncing"))
                         }
                     } else {
                         JDStatusBarNotification.dismiss()
@@ -578,10 +577,10 @@ import DZNWebViewController
             }
         }
     }
-    
-    public func presentMessengerInNewWindow() {
-        let window = UIWindow(frame: UIScreen.mainScreen().bounds);
-        window.backgroundColor = UIColor.whiteColor()
+
+    open func presentMessengerInNewWindow() {
+        let window = UIWindow(frame: UIScreen.main.bounds);
+        window.backgroundColor = UIColor.white
         presentMessengerInWindow(window)
         window.makeKeyAndVisible()
     }
@@ -589,244 +588,243 @@ import DZNWebViewController
     //
     // Data Processing
     //
-    
+
     /// Handling URL Opening in application
-    func openUrl(url: String) {
-        if let u = NSURL(string: url) {
-            
+    func openUrl(_ url: String) {
+        if let u = URL(string: url) {
+
             // Handle phone call
-            if (u.scheme.lowercaseString == "telprompt") {
-                 UIApplication.sharedApplication().openURL(u)
+            if (u.scheme?.lowercased() == "telprompt") {
+                 UIApplication.shared.openURL(u)
                 return
             }
-            
+
             // Handle web invite url
-            if (u.scheme.lowercaseString == "http" || u.scheme.lowercaseString == "https") &&  inviteUrlHost != nil {
-                
+            if (u.scheme?.lowercased() == "http" || u.scheme?.lowercased() == "https") &&  inviteUrlHost != nil {
+
                 if u.host == inviteUrlHost {
-                    if let token = u.lastPathComponent {
-                        joinGroup(token)
-                        return
-                    }
+                    let token = u.lastPathComponent
+                    joinGroup(token)
+                    return
                 }
             }
-            
+
             // Handle custom scheme invite url
-            if (u.scheme.lowercaseString == inviteUrlScheme?.lowercaseString) {
-                
+            if (u.scheme?.lowercased() == inviteUrlScheme?.lowercased()) {
+
                 if (u.host == "invite") {
-                    let token = u.query?.componentsSeparatedByString("=")[1]
+                    let token = u.query?.components(separatedBy: "=")[1]
                     if token != nil {
                         joinGroup(token!)
                         return
                     }
                 }
-                
+
                 if let bindedController = bindedToWindow?.rootViewController {
-                    let alert = UIAlertController(title: nil, message: AALocalized("ErrorUnableToJoin"), preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: AALocalized("AlertOk"), style: .Cancel, handler: nil))
-                    bindedController.presentViewController(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: nil, message: AALocalized("ErrorUnableToJoin"), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: AALocalized("AlertOk"), style: .cancel, handler: nil))
+                    bindedController.present(alert, animated: true, completion: nil)
                 }
-                
+
                 return
             }
-            
-            
-            
+
+
+
             if (url.isValidUrl()){
-                
+
                 if let bindedController = bindedToWindow?.rootViewController {
                     // Dismiss Old Presented Controller to show new one
                     if let presented = bindedController.presentedViewController {
-                        presented.dismissViewControllerAnimated(true, completion: nil)
+                        presented.dismiss(animated: true, completion: nil)
                     }
-                    
+
                     // Building Controller for Web preview
                     let controller: UIViewController
                     if #available(iOS 9.0, *) {
-                        controller = SFSafariViewController(URL: u)
+                        controller = SFSafariViewController(url: u)
                     } else {
-                        controller = AANavigationController(rootViewController: DZNWebViewController(URL: u))
+                        controller = AANavigationController(rootViewController: DZNWebViewController(url: u))
                     }
                     if AADevice.isiPad {
-                        controller.modalPresentationStyle = .FullScreen
+                        controller.modalPresentationStyle = .fullScreen
                     }
-                    
+
                     // Presenting controller
-                    bindedController.presentViewController(controller, animated: true, completion: nil)
+                    bindedController.present(controller, animated: true, completion: nil)
                 } else {
                     // Just Fallback. Might never happend
-                    UIApplication.sharedApplication().openURL(u)
+                    UIApplication.shared.openURL(u)
                 }
             }
         }
     }
-    
+
     /// Handling joining group by token
-    func joinGroup(token: String) {
+    func joinGroup(_ token: String) {
         if let bindedController = bindedToWindow?.rootViewController {
-            let alert = UIAlertController(title: nil, message: AALocalized("GroupJoinMessage"), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: AALocalized("AlertNo"), style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: AALocalized("GroupJoinAction"), style: .Default){ (action) -> Void in
-                AAExecutions.execute(Actor.joinGroupViaLinkCommandWithToken(token), type: .Safe, ignore: [], successBlock: { (val) -> Void in
-                    
+            let alert = UIAlertController(title: nil, message: AALocalized("GroupJoinMessage"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: AALocalized("AlertNo"), style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: AALocalized("GroupJoinAction"), style: .default){ (action) -> Void in
+                AAExecutions.execute(Actor.joinGroupViaLinkCommand(withToken: token), type: .safe, ignore: [], successBlock: { (val) -> Void in
+
                     // TODO: Fix for iPad
                     let groupId = val as! JavaLangInteger
                     let tabBarController = bindedController as! UITabBarController
                     let index = tabBarController.selectedIndex
                     let navController = tabBarController.viewControllers![index] as! UINavigationController
-                    if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer.groupWithInt(groupId.intValue)) {
+                    if let customController = ActorSDK.sharedActor().delegate.actorControllerForConversation(ACPeer.group(with: groupId.int32Value)) {
                         navController.pushViewController(customController, animated: true)
                     } else {
-                        navController.pushViewController(ConversationViewController(peer: ACPeer.groupWithInt(groupId.intValue)), animated: true)
+                        navController.pushViewController(ConversationViewController(peer: ACPeer.group(with: groupId.int32Value)), animated: true)
                     }
-                    
+
                 }, failureBlock: nil)
             })
-            bindedController.presentViewController(alert, animated: true, completion: nil)
+            bindedController.present(alert, animated: true, completion: nil)
         }
     }
-    
+
     /// Tracking page visible
-    func trackPageVisible(page: ACPage) {
+    func trackPageVisible(_ page: ACPage) {
         analyticsDelegate?.analyticsPageVisible(page)
     }
-    
+
     /// Tracking page hidden
-    func trackPageHidden(page: ACPage) {
+    func trackPageHidden(_ page: ACPage) {
         analyticsDelegate?.analyticsPageHidden(page)
     }
-    
+
     /// Tracking event
-    func trackEvent(event: ACEvent) {
+    func trackEvent(_ event: ACEvent) {
         analyticsDelegate?.analyticsEvent(event)
     }
-    
+
     //
     // File System
     //
-    
-    public func fullFilePathForDescriptor(descriptor: String) -> String {
+
+    open func fullFilePathForDescriptor(_ descriptor: String) -> String {
         return CocoaFiles.pathFromDescriptor(descriptor)
     }
-    
+
     //
     // Manual Online handling
     //
-    
-    public func didBecameOnline() {
-        
+
+    open func didBecameOnline() {
+
         if automaticOnlineHandling {
             fatalError("Manual Online handling not enabled!")
         }
-        
+
         if !isStarted {
             fatalError("Messenger not started")
         }
-        
+
         if !isUserOnline {
             isUserOnline = true
             messenger.onAppVisible()
         }
     }
-    
-    public func didBecameOffline() {
+
+    open func didBecameOffline() {
         if automaticOnlineHandling {
             fatalError("Manual Online handling not enabled!")
         }
-        
+
         if !isStarted {
             fatalError("Messenger not started")
         }
-        
+
         if isUserOnline {
             isUserOnline = false
             messenger.onAppHidden()
         }
     }
-    
+
     //
     // Automatic Online handling
     //
-    
+
     func checkAppState() {
-        if UIApplication.sharedApplication().applicationState == .Active {
+        if UIApplication.shared.applicationState == .active {
             if !isUserOnline {
                 isUserOnline = true
-                
+
                 // Mark app as visible
                 messenger.onAppVisible()
-                
+
                 // Notify Audio Manager about app visiblity change
                 AAAudioManager.sharedAudio().appVisible()
-                
+
                 // Notify analytics about visibilibty change
                 // Analytics.track(ACAllEvents.APP_VISIBLEWithBoolean(true))
-                
+
                 // Hack for resync phone book
                 Actor.onPhoneBookChanged()
             }
         } else {
             if isUserOnline {
                 isUserOnline = false
-                
+
                 // Notify Audio Manager about app visiblity change
                 AAAudioManager.sharedAudio().appHidden()
-                
+
                 // Mark app as hidden
                 messenger.onAppHidden()
-                
+
                 // Notify analytics about visibilibty change
                 // Analytics.track(ACAllEvents.APP_VISIBLEWithBoolean(false))
             }
         }
     }
-    
-    public func applicationDidFinishLaunching(application: UIApplication) {
+
+    open func applicationDidFinishLaunching(_ application: UIApplication) {
         if !automaticOnlineHandling || !isStarted {
             return
         }
         checkAppState()
     }
-    
-    public func applicationDidBecomeActive(application: UIApplication) {
+
+    open func applicationDidBecomeActive(_ application: UIApplication) {
         if !automaticOnlineHandling || !isStarted {
             return
         }
         checkAppState()
     }
-    
-    public func applicationWillEnterForeground(application: UIApplication) {
+
+    open func applicationWillEnterForeground(_ application: UIApplication) {
         if !automaticOnlineHandling || !isStarted {
             return
         }
         checkAppState()
     }
-    
-    public func applicationDidEnterBackground(application: UIApplication) {
+
+    open func applicationDidEnterBackground(_ application: UIApplication) {
         if !automaticOnlineHandling || !isStarted {
             return
         }
         checkAppState()
-        
+
         // Keep application running for 40 secs
         if messenger.isLoggedIn() {
             var completitionTask: UIBackgroundTaskIdentifier = UIBackgroundTaskInvalid
-            
-            completitionTask = application.beginBackgroundTaskWithName("Completition", expirationHandler: { () -> Void in
+
+            completitionTask = application.beginBackgroundTask(withName: "Completition", expirationHandler: { () -> Void in
                 application.endBackgroundTask(completitionTask)
                 completitionTask = UIBackgroundTaskInvalid
             })
-            
+
             // Wait for 40 secs before app shutdown
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(40.0 * Double(NSEC_PER_SEC))), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).asyncAfter(deadline: DispatchTime.now() + Double(Int64(40.0 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { () -> Void in
                 application.endBackgroundTask(completitionTask)
                 completitionTask = UIBackgroundTaskInvalid
             }
         }
     }
-    
-    public func applicationWillResignActive(application: UIApplication) {
+
+    open func applicationWillResignActive(_ application: UIApplication) {
         if !automaticOnlineHandling || !isStarted {
             return
         }
@@ -836,40 +834,40 @@ import DZNWebViewController
         // In iOS power button also cancel ongoint call.
         //
         // messenger.probablyEndCall()
-        
+
         checkAppState()
     }
-    
+
     //
     // Handling remote notifications
     //
-    
-    public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        
+
+    open func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+
         if !messenger.isLoggedIn() {
-            completionHandler(UIBackgroundFetchResult.NoData)
+            completionHandler(UIBackgroundFetchResult.noData)
             return
         }
-        
+
         self.completionHandler = completionHandler
     }
-    
-    public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+
+    open func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
         // Nothing?
     }
-    
-    public func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+
+    open func application(_ application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         requestPushKit()
     }
-    
+
     //
     // Handling background fetch events
     //
-    
-    public func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-        
+
+    open func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+
         if !messenger.isLoggedIn() {
-            completionHandler(UIBackgroundFetchResult.NoData)
+            completionHandler(UIBackgroundFetchResult.noData)
             return
         }
         self.completionHandler = completionHandler
@@ -878,34 +876,34 @@ import DZNWebViewController
     //
     // Handling invite url
     //
-    
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        
+
+    func application(_ application: UIApplication, openURL url: URL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+
         dispatchOnUi { () -> Void in
             self.openUrl(url.absoluteString)
         }
 
         return true
     }
-    
-    public func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
-        
+
+    open func application(_ application: UIApplication, handleOpenURL url: URL) -> Bool {
+
         dispatchOnUi { () -> Void in
             self.openUrl(url.absoluteString)
         }
-        
+
         return true
     }
 }
 
 public enum AAAutoPush {
-    case None
-    case FromStart
-    case AfterLogin
+    case none
+    case fromStart
+    case afterLogin
 }
 
 public enum AAAuthStrategy {
-    case PhoneOnly
-    case EmailOnly
-    case PhoneEmail
+    case phoneOnly
+    case emailOnly
+    case phoneEmail
 }

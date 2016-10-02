@@ -10,28 +10,28 @@ import UIKit
 */
 public enum BubbleType {
     // Outcome text bubble
-    case TextOut
+    case textOut
     // Income text bubble
-    case TextIn
+    case textIn
     // Outcome media bubble
-    case MediaOut
+    case mediaOut
     // Income media bubble
-    case MediaIn
+    case mediaIn
     // Service bubble
-    case Service
+    case service
     // Sticker bubble
-    case Sticker
+    case sticker
 }
 
 /**
     Root class for bubble layouter. Used for preprocessing bubble layout in background.
 */
 public protocol AABubbleLayouter  {
-    
-    func isSuitable(message: ACMessage) -> Bool
-    
-    func buildLayout(peer: ACPeer, message: ACMessage) -> AACellLayout
-    
+
+    func isSuitable(_ message: ACMessage) -> Bool
+
+    func buildLayout(_ peer: ACPeer, message: ACMessage) -> AACellLayout
+
     func cellClass() -> AnyClass
 }
 
@@ -44,33 +44,33 @@ extension AABubbleLayouter {
 /**
     Root class for bubble cells
 */
-public class AABubbleCell: UICollectionViewCell {
-    
-    public static let bubbleContentTop: CGFloat = 6
-    public static let bubbleContentBottom: CGFloat = 6
-    public static let bubbleTop: CGFloat = 3
-    public static let bubbleTopCompact: CGFloat = 1
-    public static let bubbleBottom: CGFloat = 3
-    public static let bubbleBottomCompact: CGFloat = 1
-    public static let avatarPadding: CGFloat = 39
-    public static let dateSize: CGFloat = 30
-    public static let newMessageSize: CGFloat = 30
-    
+open class AABubbleCell: UICollectionViewCell {
+
+    open static let bubbleContentTop: CGFloat = 6
+    open static let bubbleContentBottom: CGFloat = 6
+    open static let bubbleTop: CGFloat = 3
+    open static let bubbleTopCompact: CGFloat = 1
+    open static let bubbleBottom: CGFloat = 3
+    open static let bubbleBottomCompact: CGFloat = 1
+    open static let avatarPadding: CGFloat = 39
+    open static let dateSize: CGFloat = 30
+    open static let newMessageSize: CGFloat = 30
+
     private static let outBgColor = UIColor(red:0.87, green:0.94, blue:0.97, alpha:1.0)
     private static let mentionBgColor = UIColor(red:0.87, green:0.97, blue:0.90, alpha:1.0)
-    
+
     //
     // Cached Date bubble images
     //
     private static var dateBgImage = ActorSDK.sharedActor().style.statusBackgroundImage
-    
+
     // MARK: -
     // MARK: Public vars
-    
+
     // Views
-    public let avatarView = AAAvatarView()
-    public var avatarAdded: Bool = false
-    
+    open let avatarView = AAAvatarView()
+    open var avatarAdded: Bool = false
+
     private static var likeImageFilledGray = UIImage.bundled("heart_filled_gray")
     private static var likeImageFilledRed = UIImage.bundled("heart_filled_red")
     private static var likeImage = UIImage.bundled("heart_outline")
@@ -78,16 +78,16 @@ public class AABubbleCell: UICollectionViewCell {
     private static var likeCounterFont = UIFont.textFontOfSize(8)
     public let likeBtn = UIImageView()
     public var likeBtnAdded: Bool = false
-    
-    private let dateText = UILabel()
-    private let dateBg = UIImageView()
-    
-    private let newMessage = UILabel()
-    
+
+    fileprivate let dateText = UILabel()
+    fileprivate let dateBg = UIImageView()
+
+    fileprivate let newMessage = UILabel()
+
     // Layout
-    public var contentInsets : UIEdgeInsets = UIEdgeInsets()
-    public var bubbleInsets : UIEdgeInsets = UIEdgeInsets()
-    public var fullContentInsets : UIEdgeInsets {
+    open var contentInsets : UIEdgeInsets = UIEdgeInsets()
+    open var bubbleInsets : UIEdgeInsets = UIEdgeInsets()
+    open var fullContentInsets : UIEdgeInsets {
         get {
             return UIEdgeInsets(
                 top: contentInsets.top + bubbleInsets.top + (isShowDate ? AABubbleCell.dateSize : 0) + (isShowNewMessages ? AABubbleCell.newMessageSize : 0),
@@ -96,78 +96,78 @@ public class AABubbleCell: UICollectionViewCell {
                 right: contentInsets.right + bubbleInsets.right)
         }
     }
-    public var needLayout: Bool = true
-    
-    public let groupContentInsetY = 20.0
-    public let groupContentInsetX = 40.0
-    public var bubbleVerticalSpacing: CGFloat = 6.0
-    public let bubblePadding: CGFloat = 6;
-    public let bubbleMediaPadding: CGFloat = 10;
-    
+    open var needLayout: Bool = true
+
+    open let groupContentInsetY = 20.0
+    open let groupContentInsetX = 40.0
+    open var bubbleVerticalSpacing: CGFloat = 6.0
+    open let bubblePadding: CGFloat = 6;
+    open let bubbleMediaPadding: CGFloat = 10;
+
     // Binded data
-    public var peer: ACPeer!
-    public weak var controller: AAConversationContentController!
-    public var isGroup: Bool = false
-    public var isFullSize: Bool!
-    public var bindedSetting: AACellSetting?
-    
-    public var bindedMessage: ACMessage? = nil
-    public var bubbleType:BubbleType? = nil
-    public var isOut: Bool = false
-    public var isShowDate: Bool = false
-    public var isShowNewMessages: Bool = false
-    
+    open var peer: ACPeer!
+    open weak var controller: AAConversationContentController!
+    open var isGroup: Bool = false
+    open var isFullSize: Bool!
+    open var bindedSetting: AACellSetting?
+
+    open var bindedMessage: ACMessage? = nil
+    open var bubbleType:BubbleType? = nil
+    open var isOut: Bool = false
+    open var isShowDate: Bool = false
+    open var isShowNewMessages: Bool = false
+
     var appStyle: ActorStyle {
         get {
             return ActorSDK.sharedActor().style
         }
     }
-    
+
     // MARK: -
     // MARK: Constructors
 
     public init(frame: CGRect, isFullSize: Bool) {
         super.init(frame: frame)
-        
+
         self.isFullSize = isFullSize
-  
+
         dateBg.image = AABubbleCell.dateBgImage
         dateText.font = UIFont.mediumSystemFontOfSize(12)
         dateText.textColor = appStyle.chatDateTextColor
-        dateText.contentMode = UIViewContentMode.Center
-        dateText.textAlignment = NSTextAlignment.Center
-        
+        dateText.contentMode = UIViewContentMode.center
+        dateText.textAlignment = NSTextAlignment.center
+
         newMessage.font = UIFont.mediumSystemFontOfSize(14)
         newMessage.textColor = appStyle.chatUnreadTextColor
-        newMessage.contentMode = UIViewContentMode.Center
-        newMessage.textAlignment = NSTextAlignment.Center
+        newMessage.contentMode = UIViewContentMode.center
+        newMessage.textAlignment = NSTextAlignment.center
         newMessage.backgroundColor = appStyle.chatUnreadBgColor
         newMessage.text = AALocalized("ChatNewMessages")
-        
+
         //"New Messages"
-        
-        contentView.transform = CGAffineTransformMake(1, 0, 0, -1, 0, 0)
-        
+
+        contentView.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
+
         contentView.addSubview(newMessage)
         contentView.addSubview(dateBg)
         contentView.addSubview(dateText)
-        
+
         avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AABubbleCell.avatarDidTap)))
         avatarView.userInteractionEnabled = true
 
         likeBtn.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AABubbleCell.likeDidTap)))
         likeBtn.userInteractionEnabled = true
-        
-        backgroundColor = UIColor.clearColor()
-        
+
+        backgroundColor = UIColor.clear
+
         // Speed up animations
         self.layer.speed = 1.5
-        
+
         //self.layer.shouldRasterize = true
         //self.layer.rasterizationScale = UIScreen.mainScreen().scale
         //self.layer.drawsAsynchronously = true
         //self.contentView.layer.drawsAsynchronously = true
-        
+
         let swipeDetector = UISwipeGestureRecognizer(
             target: self,
             action: #selector(AABubbleCell.contentViewDidSwipe))
@@ -175,34 +175,21 @@ public class AABubbleCell: UICollectionViewCell {
         contentView.addGestureRecognizer(swipeDetector)
         contentView.userInteractionEnabled = true;
     }
-    
+
     public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func setConfig(peer: ACPeer, controller: AAConversationContentController) {
+
+    func setConfig(_ peer: ACPeer, controller: AAConversationContentController) {
         self.peer = peer
         self.controller = controller
         if (peer.isGroup && !isFullSize) {
             self.isGroup = true
         }
     }
-    
-    public override func canBecomeFirstResponder() -> Bool {
-        return false
-    }
 
-    public override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-        if action == #selector(NSObject.delete(_:)) {
-            return true
-        }
+    open override var canBecomeFirstResponder : Bool {
         return false
-    }
-    
-    public override func delete(sender: AnyObject?) {
-        let rids = IOSLongArray(length: 1)
-        rids.replaceLongAtIndex(0, withLong: bindedMessage!.rid)
-        Actor.deleteMessagesWithPeer(self.peer, withRids: rids)
     }
 
     func contentViewDidSwipe() {
@@ -210,18 +197,30 @@ public class AABubbleCell: UICollectionViewCell {
             LikersOverlay.shared.showOverlay(contentView.superview!.superview!.superview!, message: bindedMessage!)
         }
     }
-    
+//    open override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+//        if action == #selector(Object.delete(_:)) {
+//            return true
+//        }
+//        return false
+//    }
+
+//    open override func delete(_ sender: Any?) {
+//        let rids = IOSLongArray(length: 1)
+//        rids?.replaceLong(at: 0, withLong: bindedMessage!.rid)
+//        Actor.deleteMessages(with: self.peer, withRids: rids)
+//    }
+
     func avatarDidTap() {
         if bindedMessage != nil {
             controller.onBubbleAvatarTap(self.avatarView, uid: bindedMessage!.senderId)
         }
     }
-    
+
     func likeDidTap() {
         if bindedMessage != nil {
             likeBtnAdded = false
             likeBtn.removeFromSuperview()
-            
+
             if (bindedMessage!.reactions != nil &&
                 bindedMessage!.reactions.size() > 0 &&
                 bindedMessage!.reactions.getWithInt(0).getUids() != nil &&
@@ -233,9 +232,8 @@ public class AABubbleCell: UICollectionViewCell {
             }
         }
     }
-    
-    public func performBind(message: ACMessage, receiveDate: jlong, readDate: jlong, setting: AACellSetting, isShowNewMessages: Bool, layout: AACellLayout) {
 
+    open func performBind(_ message: ACMessage, receiveDate: jlong, readDate: jlong, setting: AACellSetting, isShowNewMessages: Bool, layout: AACellLayout) {
         var reuse = false
         if (bindedMessage != nil && bindedMessage?.rid == message.rid && bindedMessage?.reactions?.size() == message.reactions?.size()) {
             reuse = true
@@ -243,35 +241,35 @@ public class AABubbleCell: UICollectionViewCell {
         isOut = message.senderId == Actor.myUid();
         backgroundColor = isOut ? AABubbleCell.outBgColor : UIColor.clearColor()
         bindedMessage = message
-        
+
         if let textContent = message.content as? ACTextContent {
             if textContent.getMentions().containsWithId(Actor.myUid().toNSNumber()) {
                 backgroundColor = AABubbleCell.mentionBgColor
             }
         }
-        
+
         self.isShowNewMessages = isShowNewMessages
         if !reuse && !isFullSize {
             if (isGroup) {
                 let user = Actor.getUserWithUid(message.senderId)
-                        
+
                 // Small hack for replacing senter name and title
                 // with current group title
                 if user.isBot() && user.getNameModel().get() == "Bot" {
                     let group = Actor.getGroupWithGid(self.peer.peerId)
                     let avatar: ACAvatar? = group.getAvatarModel().get()
                     let name = group.getNameModel().get()
-                    avatarView.bind(name, id: Int(user.getId()), avatar: avatar)
+                    avatarView.bind(name!, id: Int(user.getId()), avatar: avatar)
                 } else {
                     let avatar: ACAvatar? = user.getAvatarModel().get()
                     let name = user.getNameModel().get()
-                    avatarView.bind(name, id: Int(user.getId()), avatar: avatar)
+                    avatarView.bind(name!, id: Int(user.getId()), avatar: avatar)
                 }
                 if !avatarAdded {
                     contentView.addSubview(avatarView)
                     avatarAdded = true
                 }
-                
+
                 if bindedMessage != nil {
                     let likeCount = UILabel()
                     likeCount.textAlignment = NSTextAlignment.Center
@@ -280,7 +278,7 @@ public class AABubbleCell: UICollectionViewCell {
                     likeCount.frame = CGRect(x: 11, y: 14, width: 9, height: 9);
                     likeCount.text = "0"
                     likeBtn.image = AABubbleCell.likeImage
-                    
+
                     if(bindedMessage!.reactions != nil && bindedMessage!.reactions.size() > 0) {
                         let uids = bindedMessage!.reactions.getWithInt(0).getUids() as JavaUtilList;
                         if(uids.containsWithId(Actor.myUid().toNSNumber())) {
@@ -291,11 +289,11 @@ public class AABubbleCell: UICollectionViewCell {
                         }
                         likeCount.text = String(uids.size())
                     }
-                    
+
                     likeBtn.removeAllSubviews()
                     likeBtn.addSubview(likeCount)
                 }
-                
+
                 if !likeBtnAdded {
                     contentView.addSubview(likeBtn)
                     likeBtnAdded = true
@@ -311,38 +309,38 @@ public class AABubbleCell: UICollectionViewCell {
                 }
             }
         }
-        
+
         self.isShowDate = setting.showDate
         if (isShowDate) {
             self.dateText.text = layout.anchorDate
         }
-        
+
         self.bindedSetting = setting
-        
+
         bind(message, receiveDate: receiveDate, readDate: readDate, reuse: reuse, cellLayout: layout, setting: setting)
-        
+
         if (!reuse) {
             needLayout = true
             super.setNeedsLayout()
         }
     }
-    
-    public func bind(message: ACMessage, receiveDate: jlong, readDate: jlong, reuse: Bool, cellLayout: AACellLayout, setting: AACellSetting) {
+
+    open func bind(_ message: ACMessage, receiveDate: jlong, readDate: jlong, reuse: Bool, cellLayout: AACellLayout, setting: AACellSetting) {
         fatalError("bind(message:) has not been implemented")
     }
-    
+
     public func bindBubbleType(type: BubbleType, isCompact: Bool) {
     }
-    
+
     func updateView() {
     }
-    
+
     // MARK: -
     // MARK: Layout
-    
-    public override func layoutSubviews() {
+
+    open override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         UIView.performWithoutAnimation { () -> Void in
             let endPadding: CGFloat = 32
             let startPadding: CGFloat = (self.isGroup) ? AABubbleCell.avatarPadding : 0
@@ -355,38 +353,38 @@ public class AABubbleCell: UICollectionViewCell {
             }
         }
     }
-    
+
     func layoutAnchor() {
         if (isShowDate) {
-            dateText.frame = CGRectMake(0, 0, 1000, 1000)
+            dateText.frame = CGRect(x: 0, y: 0, width: 1000, height: 1000)
             dateText.sizeToFit()
-            dateText.frame = CGRectMake(
-                (self.contentView.frame.size.width-dateText.frame.width)/2, 8, dateText.frame.width, 18)
-            dateBg.frame = CGRectMake(dateText.frame.minX - 8, dateText.frame.minY, dateText.frame.width + 16, 18)
-            
-            dateText.hidden = false
-            dateBg.hidden = false
+            dateText.frame = CGRect(
+                x: (self.contentView.frame.size.width-dateText.frame.width)/2, y: 8, width: dateText.frame.width, height: 18)
+            dateBg.frame = CGRect(x: dateText.frame.minX - 8, y: dateText.frame.minY, width: dateText.frame.width + 16, height: 18)
+
+            dateText.isHidden = false
+            dateBg.isHidden = false
         } else {
-            dateText.hidden = true
-            dateBg.hidden = true
+            dateText.isHidden = true
+            dateBg.isHidden = true
         }
-        
+
         if (isShowNewMessages) {
             var top = CGFloat(0)
             if (isShowDate) {
                 top += AABubbleCell.dateSize
             }
-            newMessage.hidden = false
-            newMessage.frame = CGRectMake(0, top + CGFloat(2), self.contentView.frame.width, AABubbleCell.newMessageSize - CGFloat(4))
+            newMessage.isHidden = false
+            newMessage.frame = CGRect(x: 0, y: top + CGFloat(2), width: self.contentView.frame.width, height: AABubbleCell.newMessageSize - CGFloat(4))
         } else {
-            newMessage.hidden = true
+            newMessage.isHidden = true
         }
     }
-    
-    public func layoutContent(maxWidth: CGFloat, offsetX: CGFloat) {
-        
+
+    open func layoutContent(_ maxWidth: CGFloat, offsetX: CGFloat) {
+
     }
-    
+
     func layoutAvatar() {
         let avatarSize = CGFloat(36)
         avatarView.frame = CGRect(
@@ -395,7 +393,7 @@ public class AABubbleCell: UICollectionViewCell {
             width: avatarSize,
             height: avatarSize)
     }
-    
+
     func layoutLike() {
         likeBtn.frame = CGRect(
             x: self.contentView.frame.size.width - 26,
@@ -403,15 +401,15 @@ public class AABubbleCell: UICollectionViewCell {
             width: 18,
             height: 18)
     }
-    
+
     // Need to be called in child cells
     public func layoutBubble(contentWidth: CGFloat, contentHeight: CGFloat) {
     }
-    
+
     public func layoutBubble(frame: CGRect) {
     }
-    
-    public override func preferredLayoutAttributesFittingAttributes(layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+
+    open override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         return layoutAttributes
     }
 }
