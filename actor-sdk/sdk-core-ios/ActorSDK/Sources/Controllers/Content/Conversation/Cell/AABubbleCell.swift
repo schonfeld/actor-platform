@@ -389,7 +389,7 @@ open class AABubbleCell: UICollectionViewCell {
         let avatarSize = CGFloat(36)
         avatarView.frame = CGRect(
             x: 10,
-            y: 10,
+            y: 10 + (isShowDate ? AABubbleCell.dateSize : 0) + (isShowNewMessages ? AABubbleCell.newMessageSize : 0),
             width: avatarSize,
             height: avatarSize)
     }
@@ -397,7 +397,7 @@ open class AABubbleCell: UICollectionViewCell {
     func layoutLike() {
         likeBtn.frame = CGRect(
             x: self.contentView.frame.size.width - 26,
-            y: 10,
+            y: 10 + (isShowDate ? AABubbleCell.dateSize : 0) + (isShowNewMessages ? AABubbleCell.newMessageSize : 0),
             width: 18,
             height: 18)
     }

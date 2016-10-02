@@ -15,18 +15,22 @@ open class AABubbleTextCell : AABubbleCell {
     fileprivate static let senderFont = UIFont.textFontOfSize(12)
 
     static let senderHeight = CGFloat(20)
-
     fileprivate let messageText = YYLabel()
     fileprivate let senderNameLabel = YYLabel()
     fileprivate let dateText = YYLabel()
+    fileprivate let embedPreview = YYAnimatedImageView()
     fileprivate let statusView = UIImageView()
 
+//    private static let youtubeRegex = try NSRegularExpression(
+//        pattern: "hello",
+//        options: [.caseInsensitive])
+    
     fileprivate var needRelayout = true
     fileprivate var isClanchTop:Bool = false
     fileprivate var isClanchBottom:Bool = false
-
+    
     fileprivate var dateWidth: CGFloat = 0
-
+    
     fileprivate var cellLayout: TextCellLayout!
 
     public init(frame: CGRect) {
@@ -78,6 +82,7 @@ open class AABubbleTextCell : AABubbleCell {
 
         contentView.addSubview(messageText)
         // contentView.addSubview(dateText)
+        contentView.addSubview(embedPreview)
         contentView.addSubview(statusView)
         contentView.addSubview(senderNameLabel)
     }
@@ -219,6 +224,9 @@ open class AABubbleTextCell : AABubbleCell {
         self.dateText.frame = CGRect(x: insets.left + bubbleWidth - 47 + 46 - dateWidth, y: bubbleHeight + insets.top - 20, width: dateWidth, height: 26)
         self.statusView.isHidden = true
         self.senderNameLabel.frame = CGRect(x: insets.left, y: insets.top - 18, width: contentWidth, height: 20)
+        
+        // Embed preview
+        embedPreview.frame = CGRect(x: insets.left, y: insets.top, width: 50, height: 50)
 
         layoutBubble(bubbleWidth, contentHeight: bubbleHeight)
     }
@@ -370,11 +378,22 @@ open class TextCellLayout: AACellLayout {
 
             height += AABubbleTextCell.senderHeight
         }
-
+        
+        // Embed preview
+//        if(isYoutubeLink(text: text)) {
+//            height += 50
+//        }
+        
         // Creating layout
         super.init(height: height, date: date, key: layoutKey, layouter: layouter)
     }
-
+    
+    private func isYoutubeLink(text: String) -> Bool {
+//        let matches = AABubbleTextCell.youtubeRegex.matchesInString(text, options: [], range: NSRange(location: 0, length: text.characters.count))
+//        return !matches.isEmpty;
+        return false;
+    }
+    
     /**
         Formatted text layout. Automatically parse text and detect formatting.
     */
