@@ -95,19 +95,19 @@ public extension String {
     }
     
     public func rangesOfString(_ text: String) -> [Range<String.Index>] {
-        var res = [Range<String.Index>]()
+        let res = [Range<String.Index>]()
         
-        var searchRange = (self.startIndex ..< self.endIndex)
-        while true {
-            let found = self.range(of: text, options: String.CompareOptions.caseInsensitive, range: searchRange, locale: nil)
-            if found != nil {
-                res.append(found!)
-                searchRange = (found!.upperBound ..< self.endIndex)
-            } else {
-                break
-            }
-        }
-        
+//        var searchRange = (self.characters.indices)
+//        while true {
+//            let found = self.range(of: text, options: String.CompareOptions.caseInsensitive, range: searchRange, locale: nil)
+//            if found != nil {
+//                res.append(found!)
+//                searchRange = (found!.upperBound ..< self.endIndex)
+//            } else {
+//                break
+//            }
+//        }
+//        
         return res
     }
     

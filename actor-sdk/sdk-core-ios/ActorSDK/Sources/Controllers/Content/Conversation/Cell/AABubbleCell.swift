@@ -225,10 +225,10 @@ open class AABubbleCell: UICollectionViewCell {
                 bindedMessage!.reactions.size() > 0 &&
                 (bindedMessage!.reactions.getWith(0) as AnyObject).getUids() != nil &&
                 ((bindedMessage!.reactions.getWith(0) as AnyObject).getUids() as JavaUtilList).contains(withId: Actor.myUid().toNSNumber())) {
-                controller.execute(Actor.removeReaction(with: self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
+                controller.executeHidden(Actor.removeReaction(with: self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
             }
             else {
-                controller.execute(Actor.addReaction(with: self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
+                controller.executeHidden(Actor.addReaction(with: self.peer, withRid: bindedMessage!.rid, withCode: "❤"))
             }
         }
     }

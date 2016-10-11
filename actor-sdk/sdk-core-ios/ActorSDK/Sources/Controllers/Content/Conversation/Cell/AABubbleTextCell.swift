@@ -388,7 +388,7 @@ open class TextCellLayout: AACellLayout {
         super.init(height: height, date: date, key: layoutKey, layouter: layouter)
     }
     
-    private func isYoutubeLink(text: String) -> Bool {
+    fileprivate func isYoutubeLink(_ text: String) -> Bool {
 //        let matches = AABubbleTextCell.youtubeRegex.matchesInString(text, options: [], range: NSRange(location: 0, length: text.characters.count))
 //        return !matches.isEmpty;
         return false;
