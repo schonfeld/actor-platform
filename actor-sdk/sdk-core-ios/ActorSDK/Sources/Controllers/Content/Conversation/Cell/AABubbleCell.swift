@@ -77,7 +77,6 @@ open class AABubbleCell: UICollectionViewCell {
     fileprivate static var likeCounterColor = UIColor(red:0.62, green:0.62, blue:0.62, alpha:1.0)
     fileprivate static var likeCounterFont = UIFont.textFontOfSize(8)
     open let likeBtn = UIImageView()
-    open var likeBtnAdded: Bool = false
 
     fileprivate let dateText = UILabel()
     fileprivate let dateBg = UIImageView()
@@ -218,7 +217,6 @@ open class AABubbleCell: UICollectionViewCell {
 
     func likeDidTap() {
         if bindedMessage != nil {
-            likeBtnAdded = false
             likeBtn.removeFromSuperview()
 
             if (bindedMessage!.reactions != nil &&
@@ -294,19 +292,14 @@ open class AABubbleCell: UICollectionViewCell {
                     likeBtn.addSubview(likeCount)
                 }
 
-                if !likeBtnAdded {
-                    contentView.addSubview(likeBtn)
-                    likeBtnAdded = true
-                }
+                contentView.addSubview(likeBtn)
             } else {
                 if avatarAdded {
                     avatarView.removeFromSuperview()
                     avatarAdded = false
                 }
-                if likeBtnAdded {
-                    likeBtn.removeFromSuperview()
-                    likeBtnAdded = false
-                }
+
+                likeBtn.removeFromSuperview()
             }
         }
 

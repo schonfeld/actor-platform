@@ -39,7 +39,7 @@ open class AppDelegate : ActorApplicationDelegate {
     open override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]?) -> Bool {
         super.application(application, didFinishLaunchingWithOptions: launchOptions)
 
-    BITHockeyManager.shared().configure(withIdentifier: "a1f964f1c155443f9b9aa0639772c029")
+        BITHockeyManager.shared().configure(withIdentifier: "a1f964f1c155443f9b9aa0639772c029")
         BITHockeyManager.shared().start()
         BITHockeyManager.shared().authenticator.authenticateInstallation()
 

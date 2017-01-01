@@ -30,4 +30,11 @@ import Foundation
             background = nil
         }
     }
+    
+    open func releaseLock() {
+        if background != nil {
+            UIApplication.shared.endBackgroundTask(background!)
+            background = nil
+        }
+    }
 }

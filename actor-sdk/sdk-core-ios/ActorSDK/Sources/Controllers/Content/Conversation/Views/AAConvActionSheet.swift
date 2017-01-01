@@ -12,7 +12,7 @@ public protocol AAConvActionSheetDelegate {
     func actionSheetCustomButton(_ index: Int)
 }
 
-open class AAConvActionSheet: UIView, AAThumbnailViewDelegate {
+open class AAConvActionSheet: UIView {
     
     open var delegate: AAConvActionSheetDelegate?
     
@@ -20,7 +20,6 @@ open class AAConvActionSheet: UIView, AAThumbnailViewDelegate {
     fileprivate let backgroundView = UIView()
     fileprivate var sheetViewHeight: CGFloat = 0
     
-    fileprivate var thumbnailView: AAThumbnailView!
     fileprivate var buttons = [UIButton]()
     fileprivate var btnCamera: UIButton!
     fileprivate var btnLibrary: UIButton!
@@ -89,10 +88,6 @@ open class AAConvActionSheet: UIView, AAThumbnailViewDelegate {
             self.sheetView.frame = nextFrame
             self.backgroundView.alpha = 0}, completion: { (bool) -> Void in
                 self.delegate = nil
-                if self.thumbnailView != nil {
-                    self.thumbnailView.dismiss()
-                    self.thumbnailView = nil
-                }
                 self.removeFromSuperview()
         }) 
     }
@@ -123,10 +118,6 @@ open class AAConvActionSheet: UIView, AAThumbnailViewDelegate {
         
         if enablePhotoPicker {
             
-            self.thumbnailView = AAThumbnailView(frame: CGRect(x: 0, y: 5, width: superWidth, height: 90))
-            self.thumbnailView.delegate = self
-            self.thumbnailView.open()
-            
             self.btnCamera = {
                 let button = UIButton(type: UIButtonType.system)
                 button.tintColor = UIColor(red: 5.0/255.0, green: 124.0/255.0, blue: 226.0/255.0, alpha: 1)
@@ -146,8 +137,6 @@ open class AAConvActionSheet: UIView, AAThumbnailViewDelegate {
                 return button
             }()
             self.buttons.append(self.btnLibrary)
-            
-            sheetViewHeight = 100
         }
         
         for i in 0..<customActions.count {
@@ -183,9 +172,6 @@ open class AAConvActionSheet: UIView, AAThumbnailViewDelegate {
         for b in self.buttons {
             self.sheetView.addSubview(b)
         }
-        if self.thumbnailView != nil {
-            self.sheetView.addSubview(self.thumbnailView)
-        }
         
         
         //
@@ -196,11 +182,7 @@ open class AAConvActionSheet: UIView, AAThumbnailViewDelegate {
         self.sheetView.backgroundColor = UIColor.white
         self.addSubview(self.sheetView)
         
-        var topOffset: CGFloat = 10
-        if self.thumbnailView != nil {
-            self.thumbnailView.frame = CGRect(x: 0, y: 5, width: superWidth, height: 90)
-            topOffset += 90
-        }
+        var topOffset: CGFloat = 0;
         for b in self.buttons {
             
             b.frame = CGRect(x: 0, y: topOffset, width: superWidth, height: 50)
@@ -213,59 +195,9 @@ open class AAConvActionSheet: UIView, AAThumbnailViewDelegate {
         }
     }
     
-    open func thumbnailSelectedUpdated(_ selectedAssets: [(PHAsset,Bool)]) {
-        if selectedAssets.count > 0 {
-            
-            var sendString:String
-            if selectedAssets.count == 1 {
-                sendString = AALocalized("AttachmentsSendPhoto").replace("{count}", dest: "\(selectedAssets.count)")
-            } else {
-                sendString = AALocalized("AttachmentsSendPhotos").replace("{count}", dest: "\(selectedAssets.count)")
-            }
-            
-            //
-            // remove target
-            //
-            self.btnCamera.removeTarget(self, action: #selector(AAConvActionSheet.btnCameraAction), for: UIControlEvents.touchUpInside)
-            
-            //
-            // add new target
-            //
-    
-            self.btnCamera.setTitle(sendString, for: UIControlState())
-            self.btnCamera.addTarget(self, action:#selector(AAConvActionSheet.sendPhotos), for: UIControlEvents.touchUpInside)
-            self.btnCamera.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 17)
-            
-            
-        } else {
-            
-            //
-            // remove target
-            //
-            self.btnCamera.removeTarget(self, action: #selector(AAConvActionSheet.sendPhotos), for: UIControlEvents.touchUpInside)
-            
-            //
-            // add new target
-            //
-            self.btnCamera.setTitle(AALocalized("PhotoCamera"), for: UIControlState())
-            self.btnCamera.addTarget(self, action: #selector(AAConvActionSheet.btnCameraAction), for: UIControlEvents.touchUpInside)
-            self.btnCamera.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-            
-        }
-    }
-
     //
     // Actions
     //
-    
-    func sendPhotos() {
-        if self.thumbnailView != nil {
-            self.thumbnailView.getSelectedAsImages { (images:[(Data,Bool)]) -> () in
-                (self.delegate?.actionSheetPickedImages(images))!
-            }
-        }
-        dismiss()
-    }
     
     func btnCameraAction() {
         delegate?.actionSheetPickCamera()
